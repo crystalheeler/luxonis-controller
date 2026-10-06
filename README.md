@@ -230,6 +230,12 @@ git tag v3.1.1 && git push origin v3.1.1
 
 ---
 
+## Build plan
+
+Agreed work that is not yet built: [docs/BUILDPLAN.md](docs/BUILDPLAN.md).
+
+---
+
 ## Release checks
 
 ```bash
