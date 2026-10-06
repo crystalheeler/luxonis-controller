@@ -9,7 +9,7 @@ Makes the RTSP stream play on a Raspberry Pi hardware decoder and in Firefox.
 
 ### Bugs fixed
 - **The stream used H.264 profile High 4:4:4 Predictive.** A Raspberry Pi hardware decoder refuses that profile and fell back to software. Firefox and LibreWolf could not play it at all, so a live view stayed black.
-- **The encoder kept full chroma from the BGR input.** It now converts to `yuv420p` and declares profile `high`.
+- **The encoder kept full chroma from the BGR input.** It now converts to `yuv420p`, and the stream declares Constrained Baseline, which every hardware decoder and browser accepts.
 
 ### Known issues
 - **Only one host can hold the camera.** Stop the add-on before you point the Windows build at the same camera.

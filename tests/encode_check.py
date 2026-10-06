@@ -4,8 +4,12 @@ Check the RTSP encoder output with ffprobe.
 Feeds raw frames through the exact command oak_bridge publishes with, then
 asserts three properties of the result:
 
-  profile   High          a Raspberry Pi hardware decoder and Firefox both
-                          refuse High 4:4:4 Predictive, profile 244
+  profile   4:2:0 family  a Raspberry Pi hardware decoder and Firefox both
+                          refuse High 4:4:4 Predictive, profile 244. Any of
+                          Constrained Baseline, Baseline, Main or High is
+                          fine, and -preset ultrafast normally yields
+                          Constrained Baseline, which is the most widely
+                          supported profile there is
   pix_fmt   yuv420p       the input is bgr24, and x264 keeps full chroma
                           unless the output format is forced
   keyframes once a second a viewer that connects mid-stream waits for the
@@ -31,6 +35,11 @@ REPO = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.insert(0, os.path.join(REPO, "src"))
 
 import oak_encoder
+
+# Every profile here is 4:2:0 and plays on a Raspberry Pi hardware decoder
+# and in every browser. The rejected case is a 4:4:4 profile, which is what
+# x264 picks from bgr24 input when the output format is not forced.
+ACCEPTED_PROFILES = ("Constrained Baseline", "Baseline", "Main", "High")
 
 WIDTH, HEIGHT = 1280, 720
 FPS           = 15
@@ -125,10 +134,11 @@ def main() -> int:
     print()
 
     findings = []
-    if info["profile"] != "High":
+    if info["profile"] not in ACCEPTED_PROFILES:
         findings.append(
-            f"profile is {info['profile']!r}, expected 'High'. "
-            "A Raspberry Pi hardware decoder refuses High 4:4:4 Predictive.")
+            f"profile is {info['profile']!r}, expected one of "
+            f"{', '.join(ACCEPTED_PROFILES)}. A Raspberry Pi hardware decoder "
+            "refuses High 4:4:4 Predictive, and Firefox cannot play it.")
     if info["pix_fmt"] != "yuv420p":
         findings.append(
             f"pix_fmt is {info['pix_fmt']!r}, expected 'yuv420p'. "
@@ -149,7 +159,8 @@ def main() -> int:
             print("FAIL:", f)
         return 1
 
-    print("RESULT: profile High, pix_fmt yuv420p, one keyframe a second.")
+    print(f"RESULT: profile {info['profile']}, pix_fmt yuv420p, "
+          f"one keyframe a second.")
     return 0
 
 

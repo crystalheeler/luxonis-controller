@@ -35,7 +35,31 @@ input it was given and wrong for every consumer of this stream.
 The fix is two flags: `-pix_fmt yuv420p` converts to 4:2:0, and
 `-profile:v high` pins the declared profile.
 
-### 2.1 The keyframe interval was already correct
+### 2.1 The profile the stream actually declares
+
+The report asked for profile `High`. The encoder emits **Constrained Baseline**,
+and that is the better outcome.
+
+`-profile:v high` is a ceiling, not a floor. It caps what x264 may use. x264
+then declares the lowest profile the stream actually needs, and `-preset
+ultrafast` disables CABAC, 8x8 DCT and B-frames, so the stream needs only
+Constrained Baseline.
+
+Constrained Baseline is the most widely supported H.264 profile. Every hardware
+decoder and every browser accepts it, including the two that refused the old
+stream. Forcing a real High stream would mean dropping `-preset ultrafast`,
+which raises the CPU cost on the Raspberry Pi the add-on runs on, for no
+compatibility gain.
+
+The defect was never the profile name. It was the 4:4:4 chroma, and
+`-pix_fmt yuv420p` fixes that. `-profile:v high` stays as a documented ceiling,
+so a later preset change cannot reach High 4:4:4 Predictive again.
+
+The first 3.0.2 build failed on this, because the check asserted the report's
+wording rather than the requirement behind it. The check now accepts
+Constrained Baseline, Baseline, Main or High, and rejects anything else.
+
+### 2.2 The keyframe interval was already correct
 
 The report asked for a keyframe interval as item 2. `-g` has equalled the frame
 rate since 2.4.2. 3.0.2 adds `-keyint_min` so the lower bound is pinned too,
@@ -68,7 +92,7 @@ read the built argument list:
 | Check | Guards |
 |---|---|
 | Output pixel format is `yuv420p` | Firefox |
-| Profile is pinned to `high` | the Raspberry Pi decoder |
+| Profile ceiling is `high` | stops a later preset change reaching 4:4:4 |
 | Input pixel format is `bgr24` | the frames the camera thread produces |
 | Keyframe interval equals the frame rate | time to first picture |
 | Minimum keyframe interval matches | the same |
@@ -78,7 +102,8 @@ read the built argument list:
 
 **`tests/encode_check.py` — the real thing.** It encodes 60 frames of moving
 content through the actual command, then reads the result back with ffprobe and
-asserts profile `High`, `pix_fmt yuv420p`, and a keyframe every 15 frames.
+asserts a 4:2:0 profile, `pix_fmt yuv420p`, and a keyframe every 15 frames.
+See 2.1 for why the profile name is not pinned to `High`.
 
 This runs on the Windows runner, which already downloads ffmpeg for the
 package. It now takes ffprobe as well. Neither tool ships in the package:
