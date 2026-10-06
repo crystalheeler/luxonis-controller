@@ -232,7 +232,9 @@ git tag v3.1.1 && git push origin v3.1.1
 
 ## Build plan
 
-Agreed work that is not yet built: [docs/BUILDPLAN.md](docs/BUILDPLAN.md).
+The open task list: [docs/BUILD_PLAN.md](docs/BUILD_PLAN.md). Read it before
+every build. `docs/BUILD_PLAN.html` is generated from it by
+`docs/render_build_plan.py`; regenerate it after every change.
 
 ---
 
