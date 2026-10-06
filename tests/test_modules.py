@@ -239,6 +239,18 @@ check("hiding it removes exactly one button",
 check("every other control survives",
       all(t in _off for t in ("Save &amp; Apply", "Reload", "Reset defaults")))
 
+# JSON export and import. The human-readable .txt export cannot be restored,
+# so moving to a new add-on slug used to mean redoing 80 classes by hand.
+check("the page offers a JSON export", "exportJson" in _on)
+check("the page offers a JSON import", "importJson" in _on)
+check("the import uses a file input", 'id="importFile"' in _on)
+check("the file input accepts JSON", "application/json,.json" in _on)
+check("the human-readable export is still there", "exportSettings" in _on)
+check("both deployments get JSON export and import",
+      "exportJson" in _off and "importJson" in _off)
+check("export posts back to the same endpoint the panel saves with",
+      _on.count("'api/settings'") >= 3)
+
 # ============================================================ encoder
 print(chr(10) + "[oak_encoder]")
 import oak_encoder

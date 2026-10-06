@@ -91,6 +91,8 @@ body{background:var(--bg);color:var(--text);font-family:'IBM Plex Sans',sans-ser
 .btn-save{background:#3b82f6;color:#fff;padding:6px 16px}
 .btn-reset{background:transparent;border:1px solid var(--border);color:var(--muted);padding:6px 10px}.btn-download{background:transparent;border:1px solid var(--border);color:var(--muted);padding:6px 10px}
 .btn-reload{background:var(--border);color:var(--muted);padding:6px 10px}
+.btn-json{background:transparent;border:1px solid #1e40af;color:#60a5fa;padding:6px 10px}
+.btn-json:hover{background:#1e40af;color:#fff;opacity:1}
 .btn-stop{background:transparent;border:1px solid #7f1d1d;color:#f87171;padding:6px 10px}
 .btn-stop:hover{background:#7f1d1d;color:#fff;opacity:1}
 #status{display:none;padding:7px 16px;font-family:'IBM Plex Mono',monospace;font-size:11px;border-bottom:1px solid var(--border)}
@@ -146,7 +148,10 @@ body{background:var(--bg);color:var(--text);font-family:'IBM Plex Sans',sans-ser
   <div class="topbar-actions">
     <button class="btn btn-reload"   onclick="loadSettings()">&#x21ba; Reload</button>
     <button class="btn btn-reset"    onclick="resetSettings()">Reset defaults</button>
-    <button class="btn btn-download" onclick="exportSettings()">&#x2913; Save to file</button>
+    <button class="btn btn-download" onclick="exportSettings()" title="Human-readable list of every object and its confidence.">&#x2913; Save to file</button>
+    <button class="btn btn-json" onclick="exportJson()" title="Back up every setting as JSON. Use Import to restore it.">&#x2913; Export JSON</button>
+    <button class="btn btn-json" onclick="document.getElementById('importFile').click()" title="Restore settings from a previously exported JSON file.">&#x2912; Import JSON</button>
+    <input type="file" id="importFile" accept="application/json,.json" style="display:none" onchange="importJson(this)">
     <button class="btn btn-save"     onclick="saveSettings()">Save &amp; Apply</button>""" + shutdown_button + """
   </div>
 </div>
@@ -299,6 +304,48 @@ async function saveSettings(){
     }
   }catch(e){ showStatus('Save failed: '+e.message,false); }
 }
+// Back up the settings exactly as the server stores them. Unlike the
+// human-readable export below, this file can be imported again, which is what
+// makes moving to a new add-on slug a two-click job.
+async function exportJson(){
+  try{
+    const r=await fetch('api/settings');
+    if(!r.ok) throw new Error(await r.text());
+    const data=await r.json();
+    const blob=new Blob([JSON.stringify(data,null,2)],{type:'application/json'});
+    const a=document.createElement('a');
+    a.href=URL.createObjectURL(blob);
+    a.download='oak_settings_'+new Date().toISOString().slice(0,10)+'.json';
+    a.click();
+    URL.revokeObjectURL(a.href);
+    showStatus('\u2713 Settings exported as JSON.',true);
+  }catch(e){ showStatus('Export failed: '+e.message,false); }
+}
+
+// Restore a file written by exportJson. The server validates and applies it
+// through the same endpoint Save & Apply uses.
+async function importJson(input){
+  const file=input.files&&input.files[0];
+  input.value='';                       // allow re-picking the same file
+  if(!file) return;
+  try{
+    const text=await file.text();
+    let data;
+    try{ data=JSON.parse(text); }
+    catch(e){ throw new Error('that file is not valid JSON'); }
+    if(!data||typeof data!=='object'||!data.objects||typeof data.objects!=='object')
+      throw new Error('that file has no "objects" section, so it is not a settings export');
+    const count=Object.keys(data.objects).length;
+    if(!confirm('Import '+count+' object settings from '+file.name+'?'+
+                String.fromCharCode(10,10)+'This replaces every current setting.')) return;
+    const r=await fetch('api/settings',{method:'POST',
+      headers:{'Content-Type':'application/json'},body:JSON.stringify(data)});
+    if(!r.ok) throw new Error(await r.text());
+    await loadSettings();
+    showStatus('\u2713 Imported '+count+' object settings.',true);
+  }catch(e){ showStatus('Import failed: '+e.message,false); }
+}
+
 function exportSettings(){
   const data=gatherSettings();
   const lines=['OAK Camera Detection Settings','Generated: '+new Date().toLocaleString(),''];
