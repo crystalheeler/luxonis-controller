@@ -1,8 +1,8 @@
 """
-OAK-D LR  →  Home Assistant Bridge  (DepthAI v3 + threaded pipeline)
+Luxonis Controller  →  Home Assistant Bridge  (DepthAI v3 + threaded pipeline)
 ---------------------------------------------------------------------
 Threads:
-  1 camera     — captures raw frames from OAK-D LR
+  1 camera     — captures raw frames from the camera
   2 detection  — per-object confidence filtering + overlay drawing
   3 rtsp       — pushes display frames to ffmpeg/mediamtx
   4 recorder   — writes motion clips; tags filenames with detected objects
@@ -576,13 +576,13 @@ def camera_thread():
     while True:
         try:
             if CAMERA_IP:
-                log.info(f"Connecting to OAK-D LR at {CAMERA_IP}...")
+                log.info(f"Connecting to the camera at {CAMERA_IP}...")
                 di = dai.DeviceInfo(CAMERA_IP)
                 di.protocol = dai.XLinkProtocol.X_LINK_TCP_IP
                 di.state    = dai.XLinkDeviceState.X_LINK_BOOTLOADER
                 device = dai.Device(di)
             else:
-                log.info("Auto-discovering OAK-D LR...")
+                log.info("Auto-discovering a Luxonis camera...")
                 device = dai.Device()
 
             with device:
@@ -729,7 +729,7 @@ def detection_thread():
                     log.info(f"Detection: {', '.join(sorted(set(triggered)))}")
                     fire_ha_event("luxonis_controller_motion_started", {
                         "timestamp": datetime.now().isoformat(),
-                        "camera": "OAK-D LR",
+                        "camera": "Luxonis Controller",
                         "detected": sorted(set(triggered)),
                         "model": DETECTION_MODEL,
                     })
@@ -742,7 +742,7 @@ def detection_thread():
                         log.info("Detection ended")
                         fire_ha_event("luxonis_controller_motion_stopped", {
                             "timestamp": datetime.now().isoformat(),
-                            "camera": "OAK-D LR",
+                            "camera": "Luxonis Controller",
                         })
 
         # Fan out — record_q carries (frame, triggered) for filename tagging
@@ -1074,7 +1074,7 @@ def storage_thread():
             if pct >= STORAGE_ALERT_THRESHOLD:
                 if pct >= last_alert_pct + 5 or last_alert_pct == 0:
                     last_alert_pct = pct
-                    msg = (f"OAK recordings are using **{pct}%** of storage "
+                    msg = (f"Recordings are using **{pct}%** of storage "
                            f"({used_gb:.1f} GB of {total_gb:.1f} GB, "
                            f"{free_gb:.1f} GB free).\n\n"
                            f"Consider deleting old recordings from `{RECORDINGS_DIR}`.")
@@ -1097,7 +1097,7 @@ def storage_thread():
 
 def main() -> None:
     """Start every worker thread and block until shutdown is requested."""
-    log.info("OAK-D LR bridge starting (threaded pipeline)")
+    log.info("Luxonis Controller starting (threaded pipeline)")
     log.info(f"RTSP stream:  rtsp://<host>:{RTSP_PORT}/stream")
     log.info(f"Snapshot:     http://<host>:{SNAPSHOT_PORT}/snapshot")
     log.info(f"Settings:     http://<host>:{INGRESS_PORT}/")

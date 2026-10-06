@@ -3,7 +3,8 @@
 # Edit this file, then restart the program. Every value here matches an option
 # in the Home Assistant add-on, so the two deployments stay in step.
 
-# IP address of the OAK-D LR PoE camera. Leave empty to search for a USB device.
+# IP address of the camera, over Power over Ethernet. Leave empty to search
+# for a USB device.
 camera_ip: ""
 
 # RTSP port. The snapshot server uses this port plus one, and the settings page

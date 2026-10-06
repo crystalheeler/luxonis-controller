@@ -1,5 +1,5 @@
 """
-Platform path resolution for the OAK camera bridge.
+Platform path resolution for Luxonis Controller.
 =====================================================
 One source of truth for every writable location. Three deployment targets:
 

@@ -7,7 +7,7 @@ name: Release
 # The Release is staged as a draft. Publishing it is a separate manual step.
 #
 # Tag a release with:
-#   git tag v3.1.0 && git push origin v3.1.0
+#   git tag v3.1.1 && git push origin v3.1.1
 on:
   push:
     tags:

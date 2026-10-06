@@ -13,7 +13,7 @@
 
 camera:
   - platform: generic
-    name: "OAK-D LR"
+    name: "Luxonis Controller"
     still_image_url: "http://localhost:8765/snapshot"
     stream_source: "http://localhost:8765/stream"
     verify_ssl: false
@@ -31,7 +31,7 @@ camera:
 # --- Motion started: record a clip and send a notification ---
 automation:
   - alias: "Luxonis Controller - Motion Started"
-    description: "Triggered when the OAK-D LR detects motion"
+    description: "Triggered when Luxonis Controller detects motion"
     trigger:
       - platform: event
         event_type: luxonis_controller_motion_started
@@ -40,7 +40,7 @@ automation:
       - service: notify.mobile_app_your_phone
         data:
           title: "Motion Detected"
-          message: "OAK-D LR detected motion at {{ now().strftime('%H:%M:%S') }}"
+          message: "Luxonis Controller detected motion at {{ now().strftime('%H:%M:%S') }}"
           data:
             # Attach a snapshot to the notification
             image: "http://localhost:8765/snapshot"
@@ -66,7 +66,7 @@ automation:
       - service: notify.mobile_app_your_phone
         data:
           title: "Motion Cleared"
-          message: "OAK-D LR motion has stopped."
+          message: "Luxonis Controller motion has stopped."
 
 
 # -----------------------------------------------------------------------------
@@ -75,7 +75,7 @@ automation:
 # -----------------------------------------------------------------------------
 
 type: picture-glance
-title: OAK-D LR
+title: Luxonis Controller
 camera_image: camera.oak_d_lr
 entities:
   - entity: camera.oak_d_lr

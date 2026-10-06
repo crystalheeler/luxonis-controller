@@ -1,7 +1,7 @@
 # Luxonis Luxonis Controller
 
-On-device AI object detection for the **Luxonis OAK-D LR** Power over
-Ethernet (PoE) camera. Runs as a
+On-device AI object detection for **Luxonis** cameras over Power over
+Ethernet (PoE). Runs as a
 Home Assistant add-on or as a standalone program on Windows and Linux. Both use
 the same code, so both get the same features.
 
@@ -143,7 +143,7 @@ Add to `configuration.yaml`:
 ```yaml
 camera:
   - platform: generic
-    name: OAK-D LR
+    name: Luxonis Controller
     still_image_url: http://<host>:8766/snapshot
     stream_source: rtsp://<host>:8765/stream?transport=tcp
 
@@ -188,7 +188,7 @@ tools/      YOLO11n preparation and icon generation
 ### Pipeline
 
 ```
-Thread 1  camera      Captures raw frames from the OAK-D LR through DepthAI v3
+Thread 1  camera      Captures raw frames from the camera through DepthAI v3
 Thread 2  detection   Per-object confidence filtering and overlay drawing
 Thread 3  rtsp        Pushes display frames to ffmpeg, then to mediamtx
 Thread 4  recorder    Writes MP4 clips with a pre-roll buffer
@@ -225,7 +225,7 @@ Windows ZIP, pushes the image to GHCR, and publishes a Release with both:
 ```bash
 # Bump version: in addon/luxonis_controller/config.yaml to match, and sync the changelog.
 cp CHANGELOG.md addon/luxonis_controller/CHANGELOG.md
-git tag v3.1.0 && git push origin v3.1.0
+git tag v3.1.1 && git push origin v3.1.1
 ```
 
 ---
@@ -246,7 +246,7 @@ package that fails one.
 
 See [CHANGELOG.md](CHANGELOG.md). Each release has an audit note holding the
 evidence, the measurements and the gaps that the changelog leaves out:
-[docs/audit-3.1.0.md](docs/audit-3.1.0.md).
+[docs/audit-3.1.1.md](docs/audit-3.1.1.md).
 
 ---
 

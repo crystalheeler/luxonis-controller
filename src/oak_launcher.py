@@ -1,5 +1,5 @@
 """
-Launcher for the OAK camera bridge. One entry point, three deployment targets.
+Launcher for Luxonis Controller. One entry point, three deployment targets.
 ===============================================================================
 This file replaces the old run.sh, which read its settings through bashio and
 therefore only ran inside the Home Assistant Supervisor.
@@ -284,7 +284,7 @@ def main() -> int:
 
     if not os.environ.get("CAMERA_IP"):
         log.warning("camera_ip is empty — DepthAI will search for a USB device. "
-                    "Set camera_ip to the OAK-D LR address for PoE.")
+                    "Set camera_ip to the camera address for PoE.")
 
     # Copy mediamtx and ffmpeg to a fixed folder. A onefile bundle unpacks to a
     # new temporary path on every launch, and Windows Firewall keys its rules on

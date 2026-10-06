@@ -7,7 +7,7 @@
 # which also removes the local build on the user's Raspberry Pi.
 name: "Luxonis Controller"
 description: "Luxonis camera controller: on-device AI detection, Real Time Streaming Protocol stream, motion recording, and Home Assistant events."
-version: "3.1.0"
+version: "3.1.1"
 slug: "luxonis_controller"
 url: "https://github.com/crystalheeler/luxonis-controller"
 image: "ghcr.io/crystalheeler/luxonis-controller"

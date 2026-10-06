@@ -2,7 +2,7 @@ Luxonis Controller — portable build for Windows
 =============================================
 
 WHAT THIS IS
-  A standalone version of the Luxonis OAK-D LR camera bridge. It runs the same
+  A standalone version of Luxonis Controller. It runs the same
   AI detection, Real Time Streaming Protocol (RTSP) stream, motion recording
   and web settings page as the
   Home Assistant add-on. It needs no installer and no administrator rights.
@@ -12,7 +12,7 @@ FIRST RUN
     Do not use C:\Program Files: Windows blocks writes there, and the program
     then falls back to %LOCALAPPDATA%\LuxonisController for its data.
   2 Open luxonis_config.yaml in a text editor. Set camera_ip to the address of
-    your OAK-D LR. Save the file.
+    your camera. Save the file.
   3 Run LuxonisController.exe.
   4 Windows Firewall asks to allow the program. Click Allow for private
     networks. You are asked once for LuxonisController.exe and once for mediamtx.exe.

@@ -392,7 +392,7 @@ async function resetSettings(){
   }catch(e){ showStatus('Reset failed: '+e.message,false); }
 }
 async function shutdownApp(){
-  if(!confirm('Stop the OAK camera program?'+String.fromCharCode(10,10)+
+  if(!confirm('Stop Luxonis Controller?'+String.fromCharCode(10,10)+
               'The stream, recording and detection all stop.'+String.fromCharCode(10)+
               'A standalone build must then be started again by hand.')) return;
   try{

@@ -13,6 +13,19 @@
 | PoE | Power over Ethernet |
 | RTSP | Real Time Streaming Protocol, the video stream on port 8765 |
 
+## 3.1.1
+Removes the last OAK-D LR naming, including the App store heading.
+
+### Changes & improvements
+- **The App store section now reads "Luxonis Controller".** It comes from `repository.yaml`, which 3.1.0 missed.
+- **Log messages, the Home Assistant example config and both READMEs name the project, not one camera model.**
+
+### Bugs fixed
+- None. This release changes names only.
+
+### Known issues
+- **The Windows build is not signed.** SmartScreen warns on first run. Choose More info, then Run anyway.
+
 ## 3.1.0
 Renames everything to Luxonis Controller, and adds a settings backup you can restore.
 

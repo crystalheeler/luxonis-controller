@@ -1,5 +1,5 @@
 """
-File logging for the OAK camera bridge.
+File logging for Luxonis Controller.
 =========================================
 A windowed executable has no console, so every message must reach a file.
 This module does three jobs:
