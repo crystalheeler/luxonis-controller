@@ -239,6 +239,33 @@ check("hiding it removes exactly one button",
 check("every other control survives",
       all(t in _off for t in ("Save &amp; Apply", "Reload", "Reset defaults")))
 
+# ============================================================ encoder
+print(chr(10) + "[oak_encoder]")
+import oak_encoder
+
+_args = oak_encoder.ffmpeg_args("ffmpeg", 1280, 720, 15, "rtsp://host/stream")
+
+
+def _after(flag):
+    return _args[_args.index(flag) + 1] if flag in _args else None
+
+
+# A Raspberry Pi hardware decoder and Firefox both refuse profile 244,
+# High 4:4:4 Predictive, which x264 emits from bgr24 input by default.
+check("output pixel format is forced to yuv420p", _after("-pix_fmt") == "yuv420p",
+      _after("-pix_fmt"))
+check("profile is pinned to high", _after("-profile:v") == "high", _after("-profile:v"))
+check("input pixel format is bgr24", _after("-pixel_format") == "bgr24",
+      _after("-pixel_format"))
+check("keyframe interval equals the frame rate", _after("-g") == "15", _after("-g"))
+check("minimum keyframe interval matches", _after("-keyint_min") == "15",
+      _after("-keyint_min"))
+check("-pix_fmt comes before the output", _args.index("-pix_fmt") < len(_args) - 1)
+check("rtsp output uses tcp", _after("-rtsp_transport") == "tcp")
+check("file mode drops the rtsp options",
+      "-rtsp_transport" not in oak_encoder.ffmpeg_args(
+          "ffmpeg", 1280, 720, 15, "out.mp4", rtsp=False))
+
 # ============================================================ icon
 print("\n[icon]")
 ico = os.path.join(REPO, "windows", "oak_camera.ico")

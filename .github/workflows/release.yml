@@ -128,12 +128,19 @@ jobs:
             "https://github.com/bluenviron/mediamtx/releases/download/v${MEDIAMTX_VERSION}/mediamtx_v${MEDIAMTX_VERSION}_windows_amd64.zip"
           unzip -o -j /tmp/mediamtx.zip mediamtx.exe -d windows/bin
 
-          # An LGPL build keeps redistribution simple.
+          # An LGPL build keeps redistribution simple. ffprobe comes too, for
+          # the encoder check below. Only ffmpeg.exe ships in the package.
           curl -fsSL -o /tmp/ffmpeg.zip \
             "https://github.com/GyanD/codexffmpeg/releases/download/7.1/ffmpeg-7.1-essentials_build.zip"
-          unzip -o -j /tmp/ffmpeg.zip "*/bin/ffmpeg.exe" -d windows/bin
+          unzip -o -j /tmp/ffmpeg.zip "*/bin/ffmpeg.exe" "*/bin/ffprobe.exe" -d windows/bin
 
           ls -la windows/bin
+
+      # The stream must decode on a Raspberry Pi and play in Firefox. Both
+      # refuse High 4:4:4 Predictive, which x264 emits from bgr24 input unless
+      # the output format is forced.
+      - name: Encoder check
+        run: python tests/encode_check.py
 
       - name: Write the executable version resource
         shell: bash
@@ -204,6 +211,7 @@ jobs:
           STAGE="OakCamera-${V}-win64"
           mkdir -p "$STAGE"
           cp dist/OakCamera.exe       "$STAGE/"
+          # ffprobe stays behind: the encoder check uses it, the app does not.
           cp windows/oak_config.yaml  "$STAGE/"
           cp windows/README-windows.md "$STAGE/README.txt"
           cd "$STAGE" && 7z a -tzip "../${STAGE}.zip" . && cd ..

@@ -20,6 +20,7 @@ import settings_page as _settings_page
 import oak_paths
 import oak_logging
 import oak_runtime
+import oak_encoder
 
 # The launcher configures logging before it imports this module. A direct run of
 # this file configures it here instead, so the log always reaches a file.
@@ -554,17 +555,10 @@ def start_ffmpeg():
     if exe is None:
         return None
 
-    cmd = [exe, "-loglevel", "warning",
-           "-f", "rawvideo", "-pixel_format", "bgr24",
-           "-video_size", f"{FRAME_WIDTH}x{FRAME_HEIGHT}",
-           "-framerate", str(FPS), "-i", "pipe:0",
-           "-c:v", "libx264", "-preset", "ultrafast",
-           "-tune", "zerolatency", "-b:v", "1000k",
-           # One keyframe per second. Without -g, x264 uses one every 250
-           # frames, and a viewer that connects mid-stream cannot draw a
-           # picture until the next keyframe: AnyCam measured 19-28 s.
-           "-g", str(FPS),
-           "-f", "rtsp", "-rtsp_transport", "tcp", RTSP_PUBLISH_URL]
+    # oak_encoder holds the flags, so tests/encode_check.py probes exactly
+    # what this publishes.
+    cmd = oak_encoder.ffmpeg_args(exe, FRAME_WIDTH, FRAME_HEIGHT, FPS,
+                                  RTSP_PUBLISH_URL)
     log.info(f"Starting ffmpeg → {RTSP_PUBLISH_URL}")
     proc = subprocess.Popen(cmd, stdin=subprocess.PIPE,
                             stdout=subprocess.DEVNULL, stderr=subprocess.PIPE,

@@ -29,6 +29,8 @@ BIN_DIR = os.path.join(WIN_DIR, "bin")
 # These land at the bundle root. oak_runtime.stage_binaries copies them to a
 # fixed folder on first run, so Windows Firewall rules survive a restart.
 binaries = []
+# ffprobe.exe also sits in windows/bin for the encoder check. It is a
+# build tool, so it is not listed here and never reaches the package.
 for name in ("mediamtx.exe", "ffmpeg.exe"):
     path = os.path.join(BIN_DIR, name)
     if os.path.isfile(path):
