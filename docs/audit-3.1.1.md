@@ -35,6 +35,21 @@ which is what should have run the first time.
 Messages about the hardware now say "the camera" or "a Luxonis camera" rather
 than naming a model, because the project is adding other Luxonis models.
 
+## 2.1 The add-on zip
+
+Releases carried only the Windows package, so installing by drag and drop meant
+copying the manifest out of the repository by hand.
+
+Every release now carries `<slug>-addon-<version>.zip`, holding one folder
+named after the slug. Unzip it into `/addons` and the add-on appears under
+Local apps. It is 8 to 10 KB, because the add-on installs a prebuilt image and
+needs no source.
+
+The five releases already published were backfilled with the same zip, built
+from each tag, so each one carries the manifest it shipped with. 3.0.0 through
+3.0.3 name the `oak_camera` slug and the `luxonis-oak-d-lr` image; 3.1.0 names
+`luxonis_controller` and `luxonis-controller`.
+
 ## 3. Release checks
 
 68 module checks, privacy scan, jargon scan, changelog structure, image name,

@@ -96,6 +96,23 @@ jobs:
       - name: Jargon scan
         run: python tests/jargon_scan.py
 
+      # The add-on folder, zipped for drag and drop into /addons. It is only
+      # the manifest, because the add-on installs a prebuilt image.
+      - name: Package the add-on for drag and drop
+        run: |
+          SLUG=$(sed -n 's/^slug:[[:space:]]*"\(.*\)"/\1/p' addon/luxonis_controller/config.yaml)
+          mkdir -p "stage/$SLUG"
+          cp addon/luxonis_controller/config.yaml   "stage/$SLUG/"
+          cp addon/luxonis_controller/CHANGELOG.md  "stage/$SLUG/"
+          cd stage && zip -r "../${SLUG}-addon-${{ steps.v.outputs.version }}.zip" "$SLUG" && cd ..
+          ls -la *.zip
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: addon-zip
+          path: '*-addon-*.zip'
+          retention-days: 7
+
       - name: Changelog structure
         run: |
           python - <<'PY'
@@ -289,6 +306,10 @@ jobs:
         with:
           name: windows-zip
 
+      - uses: actions/download-artifact@v4
+        with:
+          name: addon-zip
+
       - name: Extract the changelog section for this version
         run: |
           V="${{ needs.check.outputs.version }}"
@@ -316,7 +337,11 @@ jobs:
           anywhere, and run \`LuxonisController.exe\`. No installer and no administrator
           rights. Settings live in \`luxonis_config.yaml\` beside the executable.
 
-          **Home Assistant.** Add this repository in Settings > Add-ons >
+          **Home Assistant, drag and drop.** Download the \`*-addon-${V}.zip\`
+          below, unzip it into your \`/addons\` folder, then Reload in the add-on
+          store and install it from Local apps.
+
+          **Home Assistant, by repository.** Add this repository in Settings > Add-ons >
           Add-on Store > Repositories, then install **Luxonis Controller**:
 
           [![Add repository to Home Assistant](https://my.home-assistant.io/badges/supervisor_add_addon_repository.svg)](https://my.home-assistant.io/redirect/supervisor_add_addon_repository/?repository_url=https%3A%2F%2Fgithub.com%2F${REPO_ENC})
@@ -333,6 +358,8 @@ jobs:
         with:
           name: "v${{ needs.check.outputs.version }}"
           body_path: notes.md
-          files: LuxonisController-*-win64.zip
+          files: |
+            LuxonisController-*-win64.zip
+            *-addon-*.zip
           draft: true
           prerelease: false
