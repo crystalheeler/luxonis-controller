@@ -156,31 +156,30 @@ footer{margin-top:44px;padding-top:16px;border-top:1px solid var(--rule);color:v
 <p class="eyebrow">Luxonis Controller · Home Assistant add-on and Windows build</p>
 <h1>Luxonis Controller Build Plan</h1>
 <p class="meta">the open task list. Read it before every build, and confirm the version and the scope with CrystalHeeler.</p>
-<p class="meta"><span class="mono">Updated 6 October 2026. Current release: 3.1.0, published 2026-10-06. Built, not pushed: 3.1.1. · 6 open · 3 done</span></p>
+<p class="meta"><span class="mono">Updated 6 October 2026, late. Current release: 3.1.0, published 2026-10-06. Built, not pushed: 3.1.1. · 4 open · 5 done</span></p>
 </header>
 <nav class="bars" aria-label="Open items per group">
 <a class="bar g-a" style="--n:1" href="#group-a" title="Field tests: 1 open"><b>A · 1</b><span>Field tests</span></a>
-<a class="bar g-b" style="--n:1" href="#group-b" title="Bugs: 1 open"><b>B · 1</b><span>Bugs</span></a>
+<a class="bar g-b" style="--n:0" href="#group-b" title="Bugs: 0 open"><b>B · 0</b><span>Bugs</span></a>
 <a class="bar g-c" style="--n:1" href="#group-c" title="Camera and device support: 1 open"><b>C · 1</b><span>Camera and device support</span></a>
 <a class="bar g-d" style="--n:0" href="#group-d" title="Streaming and recording: 0 open"><b>D · 0</b><span>Streaming and recording</span></a>
 <a class="bar g-e" style="--n:1" href="#group-e" title="Code health: 1 open"><b>E · 1</b><span>Code health</span></a>
-<a class="bar g-f" style="--n:2" href="#group-f" title="Release engineering: 2 open"><b>F · 2</b><span>Release engineering</span></a>
+<a class="bar g-f" style="--n:1" href="#group-f" title="Release engineering: 1 open"><b>F · 1</b><span>Release engineering</span></a>
 </nav><p class="bars-cap">Each bar is one group; its width is the number of open items.</p>
 <div class="filters" role="group" aria-label="Filter by status">
-<button type="button" class="chip" data-filter="all" aria-pressed="true">All <span class="n">6</span></button>
-<button type="button" class="chip st-You" data-filter="You" aria-pressed="false"><span class="dot"></span>Waiting on you <span class="n">2</span></button>
-<button type="button" class="chip st-Discuss" data-filter="Discuss" aria-pressed="false"><span class="dot"></span>Discuss first <span class="n">1</span></button>
-<button type="button" class="chip st-Later" data-filter="Later" aria-pressed="false"><span class="dot"></span>Later <span class="n">3</span></button>
+<button type="button" class="chip" data-filter="all" aria-pressed="true">All <span class="n">4</span></button>
+<button type="button" class="chip st-You" data-filter="You" aria-pressed="false"><span class="dot"></span>Waiting on you <span class="n">1</span></button>
+<button type="button" class="chip st-Discuss" data-filter="Discuss" aria-pressed="false"><span class="dot"></span>Discuss first <span class="n">2</span></button>
+<button type="button" class="chip st-Later" data-filter="Later" aria-pressed="false"><span class="dot"></span>Later <span class="n">1</span></button>
 </div>
 <div class="top" data-all-only>
 <div class="panel you"><h2>Waiting on you</h2><ul class="you-list">
 <li class="g-a"><span class="id">A1</span><span class="t"><a href="#A1">Field-test 3.1.1 once it is pushed</a></span><span class="x">The three checks listed under "Next up"</span></li>
-<li class="g-b"><span class="id">B1</span><span class="t"><a href="#B1">Confirm the fixed stream plays in Firefox and on the Raspberry Pi decoder</a></span><span class="x">An AnyCam run against the 3.0.2 or later stream, to close the report. Not yet confirmed on real hardware from this side</span></li>
 </ul></div>
 <div class="panel"><h2>Next up: push and field-test 3.1.1</h2><ol class="order">
 <li><span><strong>Built, not pushed:</strong> 3.1.1 (<a href="#F1">F1</a>, <a href="#F2">F2</a>, <a href="#F3">F3</a>, and the last of the renaming). Four commits wait on CrystalHeeler's push order.</span></li>
 <li><span><strong>Field test 3.1.1:</strong> the App store section reads "Luxonis Controller"; the add-on zip unzips into <code>/addons</code> and appears under Local apps; the Export JSON and Import JSON buttons round-trip a settings file.</span></li>
-<li><span><strong>Waiting on CrystalHeeler:</strong> the order to push and publish 3.1.1; <a href="#C1">C1</a> (bootloader, scope agreement); <a href="#B1">B1</a> (field result from AnyCam against the fixed stream).</span></li>
+<li><span><strong>Waiting on CrystalHeeler:</strong> the order to push and publish 3.1.1; <a href="#C1">C1</a> (bootloader, scope agreement); <a href="#F4">F4</a> (which signing route, if any).</span></li>
 </ol>
 </div></div>
 <section class="group g-a" id="group-a">
@@ -188,8 +187,7 @@ footer{margin-top:44px;padding-top:16px;border-top:1px solid var(--rule);color:v
 <article class="card" id="A1" data-status="You"><div class="ctop"><span class="id">A1</span><span class="pill st-You">Waiting on you</span><span class="prio">Priority</span></div><h3>Field-test 3.1.1 once it is pushed</h3><dl><dt>Why</dt><dd>Four commits are built and not pushed. Nothing in 3.1.1 has run on real hardware</dd><dt>Next step</dt><dd>The three checks listed under "Next up"</dd></dl></article>
 </div></section>
 <section class="group g-b" id="group-b">
-<div class="ghead"><span class="gl">B</span><h2>Bugs</h2><span class="gcount">1 open</span></div><div class="cards">
-<article class="card" id="B1" data-status="You"><div class="ctop"><span class="id">B1</span><span class="pill st-You">Waiting on you</span><span class="prio">Priority</span></div><h3>Confirm the fixed stream plays in Firefox and on the Raspberry Pi decoder</h3><dl><dt>Why</dt><dd>AnyCam 3.7.1, 2026-10-06, test system B, reported the stream as H.264 <code>High 4:4:4 Predictive</code>, profile 244: the Pi's hardware decoder refused it and Firefox and LibreWolf could not play it. Fixed in 3.0.2 with <code>-pix_fmt yuv420p</code>; the release check now verifies 4:2:0 and one keyframe a second on every build. The encoder emits Constrained Baseline, which every decoder and browser accepts. Recorded on the AnyCam side as its B38</dd><dt>Next step</dt><dd>An AnyCam run against the 3.0.2 or later stream, to close the report. Not yet confirmed on real hardware from this side</dd></dl></article>
+<div class="ghead"><span class="gl">B</span><h2>Bugs</h2><span class="gcount">0 open</span></div><div class="cards">
 </div></section>
 <section class="group g-c" id="group-c">
 <div class="ghead"><span class="gl">C</span><h2>Camera and device support</h2><span class="gcount">1 open</span></div><div class="cards">
@@ -203,15 +201,16 @@ footer{margin-top:44px;padding-top:16px;border-top:1px solid var(--rule);color:v
 <article class="card" id="E1" data-status="Later"><div class="ctop"><span class="id">E1</span><span class="pill st-Later">Later</span><span class="prio">Priority</span></div><h3>The Python modules are still named <code>oak_*</code></h3><dl><dt>Why</dt><dd>3.1.1 removed every user-visible <code>oak</code> name. The source files are still <code>oak_bridge.py</code>, <code>oak_paths.py</code>, <code>oak_launcher.py</code>, <code>oak_tray.py</code>, <code>oak_runtime.py</code>, <code>oak_logging.py</code> and <code>oak_encoder.py</code>. Nobody but a reader of the source sees them</dd><dt>Next step</dt><dd>Rename them together with the imports and the PyInstaller spec, when something else is already touching those files</dd></dl></article>
 </div></section>
 <section class="group g-f" id="group-f">
-<div class="ghead"><span class="gl">F</span><h2>Release engineering</h2><span class="gcount">2 open</span></div><div class="cards">
-<article class="card" id="F4" data-status="Later"><div class="ctop"><span class="id">F4</span><span class="pill st-Later">Later</span><span class="prio">Priority</span></div><h3>The Windows build is not code-signed</h3><dl><dt>Why</dt><dd>SmartScreen warns on first run of every release, and the user has to choose "More info" then "Run anyway". An unsigned installer would warn the same way, so the portable form costs nothing here</dd><dt>Next step</dt><dd>An organisation-validated code-signing certificate, roughly 200 to 400 US dollars a year. Not worth it before there are users</dd></dl></article>
-<article class="card" id="F5" data-status="Later"><div class="ctop"><span class="id">F5</span><span class="pill st-Later">Later</span><span class="prio">Priority</span></div><h3>Delete the old container package</h3><dl><dt>Why</dt><dd><code>ghcr.io/crystalheeler/luxonis-oak-d-lr</code> still holds 3.0.0, 3.0.1, 3.0.2 and <code>latest</code>. It receives no new tags. Keeping it lets 3.0.0 to 3.0.2 still install; deleting it is one-way and would break those three</dd><dt>Next step</dt><dd>CrystalHeeler's call, once nobody needs those versions</dd></dl></article>
+<div class="ghead"><span class="gl">F</span><h2>Release engineering</h2><span class="gcount">1 open</span></div><div class="cards">
+<article class="card" id="F4" data-status="Discuss"><div class="ctop"><span class="id">F4</span><span class="pill st-Discuss">Discuss first</span><span class="prio">Priority</span></div><h3>Stop the SmartScreen warning on the Windows build</h3><dl><dt>Why</dt><dd>CrystalHeeler, 2026-10-06, asked for a cheaper option or a workaround. Research 2026-10-06 found the usual advice is out of date. <a href="https://learn.microsoft.com/en-us/windows/apps/package-and-deploy/code-signing-options">Microsoft's own comparison</a> (updated 2026-08-29): an Extended Validation certificate <strong>no longer bypasses SmartScreen</strong>, removed in 2024, so the 400 US dollars a year buys nothing here. An Organization Validated certificate is 150 to 300 a year, needs a hardware token since June 2023, and still builds reputation from zero. <a href="https://learn.microsoft.com/en-us/azure/trusted-signing/">Azure Artifact Signing</a>, formerly Trusted Signing, is about 10 US dollars a month with no token, but individuals are limited to the USA and Canada and it also builds reputation rather than granting it. Two claims that circulate are wrong: submitting the file to Microsoft Security Intelligence clears a malware detection, not a reputation warning, and <a href="https://learn.microsoft.com/en-us/answers/questions/5857071/how-can-a-small-software-publisher-build-smartscre">Microsoft states</a> there is no manual allow-listing and no fast track for a small publisher</dd><dt>Next step</dt><dd>Three routes, for a decision. <strong>Free, and the only one with no warning at all:</strong> publish as an MSIX package through the Microsoft Store, which re-signs it; it costs a repackage and a certification pass. <strong>Free, and the best fit:</strong> <a href="https://signpath.org">SignPath Foundation</a> signs qualifying open-source projects at Organization Validated level; this repository is public and MIT licensed, so check eligibility first. <strong>Paid:</strong> Azure Artifact Signing at about 10 a month, if the region allows it. Meanwhile the free user-side fix is already real: right-click the downloaded zip, Properties, tick Unblock, <strong>then</strong> extract. Windows copies the Mark of the Web from the zip onto every file inside it, so unblocking afterwards means unblocking each file separately</dd></dl></article>
 </div></section>
-<section data-all-only id="done"><div class="ghead" style="--g:var(--st-ready-fg)"><h2>Done</h2><span class="gcount">3 items off the older lists</span></div>
+<section data-all-only id="done"><div class="ghead" style="--g:var(--st-ready-fg)"><h2>Done</h2><span class="gcount">5 items off the older lists</span></div>
 <div class="done-wrap"><table><thead><tr><th>Item</th><th>Where it was listed</th><th>Evidence</th></tr></thead><tbody>
 <tr><td><span class="tick">✓</span>The H.264 4:4:4 stream</td><td>AnyCam B38</td><td>Fixed in 3.0.2. <code>tests/encode_check.py</code> asserts 4:2:0 and one keyframe a second on every build</td></tr>
 <tr><td><span class="tick">✓</span>The add-on zip for drag and drop</td><td>CrystalHeeler, 2026-10-06</td><td>Built in 3.1.1 and backfilled onto all five published releases</td></tr>
 <tr><td><span class="tick">✓</span>The Install section wording</td><td>CrystalHeeler, 2026-10-06</td><td>The release notes generator now produces the three sections, with the badge pointing at the add-on store repository</td></tr>
+<tr><td><span class="tick">✓</span>B1, the H.264 4:4:4 stream</td><td>This plan, B1</td><td>CrystalHeeler field-tested 3.0.3 on 2026-10-06: the feed shows in the AnyCam card. Closes AnyCam's B38 from this side</td></tr>
+<tr><td><span class="tick">✓</span>F5, delete the old container package</td><td>This plan, F5</td><td>CrystalHeeler, 2026-10-06: <code>luxonis-oak-d-lr</code> stays forever. It keeps 3.0.0 to 3.0.2 installable and receives no new tags</td></tr>
 </tbody></table></div>
 </section>
 <footer>Generated from <code>docs/BUILD_PLAN.md</code>. To update: edit the Markdown, then run <code>python docs/render_build_plan.py</code>.</footer>

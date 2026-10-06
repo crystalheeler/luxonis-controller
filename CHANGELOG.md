@@ -26,7 +26,7 @@ Removes the last OAK-D LR naming, including the App store heading.
 - None. This release changes names only.
 
 ### Known issues
-- **The Windows build is not signed.** SmartScreen warns on first run. Choose More info, then Run anyway.
+- **The Windows build is not signed.** SmartScreen warns on first run. Avoid it by right-clicking the downloaded zip, Properties, tick Unblock, then extract. Windows copies the Mark of the Web from the zip onto every file inside it.
 
 ## 3.1.0
 Renames everything to Luxonis Controller, and adds a settings backup you can restore.

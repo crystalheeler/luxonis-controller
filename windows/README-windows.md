@@ -65,8 +65,14 @@ TROUBLESHOOTING
                            MJPEG feed and recording still work without them.
   Already running          another copy holds port 8764. Quit it from the tray
                            icon, or end LuxonisController.exe in Task Manager.
-  SmartScreen warning      this build is not code-signed. Choose More info,
-                           then Run anyway.
+  SmartScreen warning      this build is not code-signed. Avoid it entirely:
+                           right-click the downloaded zip, choose Properties,
+                           tick Unblock, then extract. Windows copies the
+                           Mark of the Web from the zip onto every file inside
+                           it, so unblocking afterwards means unblocking each
+                           file one at a time.
+                           If you already extracted it, choose More info, then
+                           Run anyway.
 
 SOURCE AND ISSUES
   https://github.com/crystalheeler/luxonis-controller

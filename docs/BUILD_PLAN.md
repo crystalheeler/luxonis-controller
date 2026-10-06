@@ -1,6 +1,6 @@
 # Luxonis Controller Build Plan
 
-**Compiled:** Updated 6 October 2026. Current release: 3.1.0, published 2026-10-06. Built, not pushed: 3.1.1.
+**Compiled:** Updated 6 October 2026, late. Current release: 3.1.0, published 2026-10-06. Built, not pushed: 3.1.1.
 **Purpose:** the open task list. Read it before every build, and confirm the version and the scope with CrystalHeeler.
 
 `docs/BUILD_PLAN.html` is generated from this file by `docs/render_build_plan.py`; regenerate it after every change here.
@@ -11,7 +11,7 @@
 
 1. **Built, not pushed:** 3.1.1 (F1, F2, F3, and the last of the renaming). Four commits wait on CrystalHeeler's push order.
 2. **Field test 3.1.1:** the App store section reads "Luxonis Controller"; the add-on zip unzips into `/addons` and appears under Local apps; the Export JSON and Import JSON buttons round-trip a settings file.
-3. **Waiting on CrystalHeeler:** the order to push and publish 3.1.1; C1 (bootloader, scope agreement); B1 (field result from AnyCam against the fixed stream).
+3. **Waiting on CrystalHeeler:** the order to push and publish 3.1.1; C1 (bootloader, scope agreement); F4 (which signing route, if any).
 
 ---
 
@@ -51,7 +51,6 @@
 
 | # | Status | Item | Why / source | Next step |
 |---|---|---|---|---|
-| B1 | You | **Confirm the fixed stream plays in Firefox and on the Raspberry Pi decoder** | AnyCam 3.7.1, 2026-10-06, test system B, reported the stream as H.264 `High 4:4:4 Predictive`, profile 244: the Pi's hardware decoder refused it and Firefox and LibreWolf could not play it. Fixed in 3.0.2 with `-pix_fmt yuv420p`; the release check now verifies 4:2:0 and one keyframe a second on every build. The encoder emits Constrained Baseline, which every decoder and browser accepts. Recorded on the AnyCam side as its B38 | An AnyCam run against the 3.0.2 or later stream, to close the report. Not yet confirmed on real hardware from this side |
 
 ## C. Camera and device support
 
@@ -74,8 +73,7 @@
 
 | # | Status | Item | Why / source | Next step |
 |---|---|---|---|---|
-| F4 | Later | **The Windows build is not code-signed** | SmartScreen warns on first run of every release, and the user has to choose "More info" then "Run anyway". An unsigned installer would warn the same way, so the portable form costs nothing here | An organisation-validated code-signing certificate, roughly 200 to 400 US dollars a year. Not worth it before there are users |
-| F5 | Later | **Delete the old container package** | `ghcr.io/crystalheeler/luxonis-oak-d-lr` still holds 3.0.0, 3.0.1, 3.0.2 and `latest`. It receives no new tags. Keeping it lets 3.0.0 to 3.0.2 still install; deleting it is one-way and would break those three | CrystalHeeler's call, once nobody needs those versions |
+| F4 | Discuss | **Stop the SmartScreen warning on the Windows build** | CrystalHeeler, 2026-10-06, asked for a cheaper option or a workaround. Research 2026-10-06 found the usual advice is out of date. [Microsoft's own comparison](https://learn.microsoft.com/en-us/windows/apps/package-and-deploy/code-signing-options) (updated 2026-08-29): an Extended Validation certificate **no longer bypasses SmartScreen**, removed in 2024, so the 400 US dollars a year buys nothing here. An Organization Validated certificate is 150 to 300 a year, needs a hardware token since June 2023, and still builds reputation from zero. [Azure Artifact Signing](https://learn.microsoft.com/en-us/azure/trusted-signing/), formerly Trusted Signing, is about 10 US dollars a month with no token, but individuals are limited to the USA and Canada and it also builds reputation rather than granting it. Two claims that circulate are wrong: submitting the file to Microsoft Security Intelligence clears a malware detection, not a reputation warning, and [Microsoft states](https://learn.microsoft.com/en-us/answers/questions/5857071/how-can-a-small-software-publisher-build-smartscre) there is no manual allow-listing and no fast track for a small publisher | Three routes, for a decision. **Free, and the only one with no warning at all:** publish as an MSIX package through the Microsoft Store, which re-signs it; it costs a repackage and a certification pass. **Free, and the best fit:** [SignPath Foundation](https://signpath.org) signs qualifying open-source projects at Organization Validated level; this repository is public and MIT licensed, so check eligibility first. **Paid:** Azure Artifact Signing at about 10 a month, if the region allows it. Meanwhile the free user-side fix is already real: right-click the downloaded zip, Properties, tick Unblock, **then** extract. Windows copies the Mark of the Web from the zip onto every file inside it, so unblocking afterwards means unblocking each file separately |
 
 ---
 
@@ -86,6 +84,8 @@
 | The H.264 4:4:4 stream | AnyCam B38 | Fixed in 3.0.2. `tests/encode_check.py` asserts 4:2:0 and one keyframe a second on every build |
 | The add-on zip for drag and drop | CrystalHeeler, 2026-10-06 | Built in 3.1.1 and backfilled onto all five published releases |
 | The Install section wording | CrystalHeeler, 2026-10-06 | The release notes generator now produces the three sections, with the badge pointing at the add-on store repository |
+| B1, the H.264 4:4:4 stream | This plan, B1 | CrystalHeeler field-tested 3.0.3 on 2026-10-06: the feed shows in the AnyCam card. Closes AnyCam's B38 from this side |
+| F5, delete the old container package | This plan, F5 | CrystalHeeler, 2026-10-06: `luxonis-oak-d-lr` stays forever. It keeps 3.0.0 to 3.0.2 installable and receives no new tags |
 
 ---
 
