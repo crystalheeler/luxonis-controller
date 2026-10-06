@@ -19,6 +19,7 @@ Removes the last OAK-D LR naming, including the App store heading.
 ### Changes & improvements
 - **Every release now carries an add-on zip for drag and drop.** Unzip it into `/addons`, reload the add-on store, and install from Local apps. It is only the manifest, because the add-on installs a prebuilt image.
 - **The App store section now reads "Luxonis Controller".** It comes from `repository.yaml`, which 3.1.0 missed.
+- **The release Install section now has three parts:** Windows portable, Home Assistant via HA Repository, and Home Assistant manual sideload. The repository badge points at the add-on store repository.
 - **Log messages, the Home Assistant example config and both READMEs name the project, not one camera model.**
 
 ### Bugs fixed

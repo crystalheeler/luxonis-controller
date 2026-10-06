@@ -325,8 +325,8 @@ jobs:
           if [ ! -s notes.md ]; then
             echo "No changelog section found for ${V}." > notes.md
           fi
-          OWNER=$(echo "${GITHUB_REPOSITORY_OWNER}" | tr '[:upper:]' '[:lower:]')
-          REPO_ENC=$(printf '%s' "${GITHUB_REPOSITORY}" | sed 's|/|%2F|g')
+          NAME=$(sed -n 's/^name:[[:space:]]*"\(.*\)"/\1/p' addon/luxonis_controller/config.yaml)
+          SLUG=$(sed -n 's/^slug:[[:space:]]*"\(.*\)"/\1/p' addon/luxonis_controller/config.yaml)
           cat >> notes.md <<EOF
 
           ---
@@ -337,16 +337,15 @@ jobs:
           anywhere, and run \`LuxonisController.exe\`. No installer and no administrator
           rights. Settings live in \`luxonis_config.yaml\` beside the executable.
 
-          **Home Assistant, drag and drop.** Download the \`*-addon-${V}.zip\`
-          below, unzip it into your \`/addons\` folder, then Reload in the add-on
-          store and install it from Local apps.
+          **Home Assistant via HA Repository** Add this repository in Settings > Add-ons >
+          Add-on Store > Repositories, then install **${NAME}**:
 
-          **Home Assistant, by repository.** Add this repository in Settings > Add-ons >
-          Add-on Store > Repositories, then install **Luxonis Controller**:
+          [![Add repository to Home Assistant](https://my.home-assistant.io/badges/supervisor_add_addon_repository.svg)](https://my.home-assistant.io/redirect/supervisor_add_addon_repository/?repository_url=https%3A%2F%2Fgithub.com%2Fcrystalheeler%2Fcrystalheeler)
 
-          [![Add repository to Home Assistant](https://my.home-assistant.io/badges/supervisor_add_addon_repository.svg)](https://my.home-assistant.io/redirect/supervisor_add_addon_repository/?repository_url=https%3A%2F%2Fgithub.com%2F${REPO_ENC})
-
-          **Container.** \`ghcr.io/${OWNER}/luxonis-controller:${V}\`
+          **Home Assistant Manual Sideload** Download the ${SLUG}-addon-${V}.zip below,
+          unzip it into the /addons folder on your HA system, then navigate to Settings ->
+          Apps -> Install App -> "${NAME}" should be listed at the top under "Local apps" ->
+          Click that -> Click Install
           EOF
           cat notes.md
 
