@@ -1,5 +1,18 @@
 # OAK-D LR Camera — Changelog
 
+## Terms
+
+| Term | Meaning |
+|---|---|
+| CABAC | Context Adaptive Binary Arithmetic Coding, an H.264 entropy coder |
+| COCO | Common Objects in Context, the dataset the detection models are trained on |
+| DCT | Discrete Cosine Transform |
+| GHCR | GitHub Container Registry, where the add-on image is published |
+| MJPEG | Motion JPEG, the format of the live feed in the settings page |
+| NN | Neural network |
+| PoE | Power over Ethernet |
+| RTSP | Real Time Streaming Protocol, the video stream on port 8765 |
+
 ## 3.0.3
 Renames the container image to `luxonis-controller`, because the project will add other Luxonis models.
 

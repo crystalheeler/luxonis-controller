@@ -1,6 +1,7 @@
 # Luxonis OAK-D LR Camera
 
-On-device AI object detection for the **Luxonis OAK-D LR PoE** camera. Runs as a
+On-device AI object detection for the **Luxonis OAK-D LR** Power over
+Ethernet (PoE) camera. Runs as a
 Home Assistant add-on or as a standalone program on Windows and Linux. Both use
 the same code, so both get the same features.
 
@@ -10,9 +11,9 @@ the same code, so both get the same features.
 
 ## Features
 
-- **Live RTSP stream** through [mediamtx](https://github.com/bluenviron/mediamtx), for a Home Assistant dashboard or any other client
+- **Live video stream** over the Real Time Streaming Protocol (RTSP), through [mediamtx](https://github.com/bluenviron/mediamtx), for a Home Assistant dashboard or any other client
 - **On-device AI detection** — YOLOv6n, MobileNet SSD, or YOLO11n, running on the camera
-- **Per-object confidence thresholds** for all 80 COCO classes
+- **Per-object confidence thresholds** for all 80 classes of the Common Objects in Context (COCO) dataset
 - **Motion recording** to MP4, with a 3 second pre-roll buffer
 - **Filename tagging** — the detected object names go into each clip filename
 - **Web settings panel** with a live feed, on port 8767
@@ -31,7 +32,8 @@ the same code, so both get the same features.
 3. Set `camera_ip` on the Configuration tab.
 4. Start the add-on. **OAK Camera** then appears in the sidebar.
 
-The add-on installs a prebuilt image from GHCR, so it does not compile anything
+The add-on installs a prebuilt image from the GitHub Container Registry
+(GHCR), so it does not compile anything
 on your Raspberry Pi.
 
 Requirements: Home Assistant OS on `aarch64` or `amd64`, and the camera on the
@@ -64,7 +66,8 @@ python src/oak_launcher.py
 ```
 
 Install [mediamtx](https://github.com/bluenviron/mediamtx) on your `PATH` for
-RTSP. Without `ffmpeg` or `mediamtx` the RTSP stream turns off, and the MJPEG
+RTSP. Without `ffmpeg` or `mediamtx` the RTSP stream turns off, and the Motion
+JPEG (MJPEG)
 feed, snapshots and recording keep working.
 
 ---

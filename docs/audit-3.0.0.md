@@ -83,7 +83,7 @@ and 18. Without the shim a first-run model download raises `AttributeError` on
 
 ### 2.5 Why ffmpeg is optional
 
-`ffmpeg.exe` is 80 MB to 160 MB and serves only the RTSP publisher. Recording
+`ffmpeg.exe` is 80 MB to 160 MB and serves only the Real Time Streaming Protocol (RTSP) publisher. Recording
 does not need it, because `oak_bridge.py` writes clips through
 `cv2.VideoWriter` with the `mp4v` codec.
 

@@ -3,7 +3,8 @@ OAK-D LR Camera — portable build for Windows
 
 WHAT THIS IS
   A standalone version of the Luxonis OAK-D LR camera bridge. It runs the same
-  AI detection, RTSP stream, motion recording and web settings page as the
+  AI detection, Real Time Streaming Protocol (RTSP) stream, motion recording
+  and web settings page as the
   Home Assistant add-on. It needs no installer and no administrator rights.
 
 FIRST RUN
@@ -42,7 +43,7 @@ WHERE THINGS GO
 PORTS
   8765   RTSP stream, at rtsp://<this-pc>:8765/stream
   8766   JPEG snapshot, at http://<this-pc>:8766/snapshot
-  8767   settings page and the live MJPEG feed
+  8767   settings page and the live Motion JPEG (MJPEG) feed
   8764   held open internally to stop a second copy from starting
 
 UPGRADING

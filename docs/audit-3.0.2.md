@@ -42,7 +42,8 @@ and that is the better outcome.
 
 `-profile:v high` is a ceiling, not a floor. It caps what x264 may use. x264
 then declares the lowest profile the stream actually needs, and `-preset
-ultrafast` disables CABAC, 8x8 DCT and B-frames, so the stream needs only
+ultrafast` disables Context Adaptive Binary Arithmetic Coding (CABAC), 8x8
+Discrete Cosine Transform (DCT) and B-frames, so the stream needs only
 Constrained Baseline.
 
 Constrained Baseline is the most widely supported H.264 profile. Every hardware
@@ -97,7 +98,7 @@ read the built argument list:
 | Keyframe interval equals the frame rate | time to first picture |
 | Minimum keyframe interval matches | the same |
 | `-pix_fmt` precedes the output | flag order, which ffmpeg cares about |
-| RTSP output uses TCP | unchanged behaviour |
+| Real Time Streaming Protocol (RTSP) output uses TCP | unchanged behaviour |
 | File mode drops the RTSP options | the check can encode to a file |
 
 **`tests/encode_check.py` — the real thing.** It encodes 60 frames of moving

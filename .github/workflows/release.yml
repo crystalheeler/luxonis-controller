@@ -91,6 +91,11 @@ jobs:
       - name: Privacy scan
         run: python tests/privacy_scan.py
 
+      # The owner's rule: write the full term at first use, with the acronym
+      # in parentheses after it.
+      - name: Jargon scan
+        run: python tests/jargon_scan.py
+
       - name: Changelog structure
         run: |
           python - <<'PY'
