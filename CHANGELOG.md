@@ -1,5 +1,22 @@
 # OAK-D LR Camera — Changelog
 
+## 3.0.2
+Makes the RTSP stream play on a Raspberry Pi hardware decoder and in Firefox.
+
+### Changes & improvements
+- **The encoder settings move into one module.** `src/oak_encoder.py` holds them, and the release check probes exactly what the bridge publishes.
+- **Every link names the renamed repository.** The old name still redirects, so an existing install keeps working.
+
+### Bugs fixed
+- **The stream used H.264 profile High 4:4:4 Predictive.** A Raspberry Pi hardware decoder refuses that profile and fell back to software. Firefox and LibreWolf could not play it at all, so a live view stayed black.
+- **The encoder kept full chroma from the BGR input.** It now converts to `yuv420p` and declares profile `high`.
+
+### Known issues
+- **Only one host can hold the camera.** Stop the add-on before you point the Windows build at the same camera.
+- **The Windows build is not signed.** SmartScreen warns on first run. Choose More info, then Run anyway.
+- **Windows Firewall prompts twice.** Once for `OakCamera.exe` and once for `mediamtx.exe`.
+- **The container image keeps its original name.** It stays `luxonis-oak-d-lr` so an existing install can still pull it.
+
 ## 3.0.1
 Fixes the Windows build opening two console windows and giving no sign that it started.
 

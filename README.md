@@ -4,7 +4,7 @@ On-device AI object detection for the **Luxonis OAK-D LR PoE** camera. Runs as a
 Home Assistant add-on or as a standalone program on Windows and Linux. Both use
 the same code, so both get the same features.
 
-[![Add repository to Home Assistant](https://my.home-assistant.io/badges/supervisor_add_addon_repository.svg)](https://my.home-assistant.io/redirect/supervisor_add_addon_repository/?repository_url=https%3A%2F%2Fgithub.com%2Fcrystalheeler%2FLuxonis-OAK-D-LR)
+[![Add repository to Home Assistant](https://my.home-assistant.io/badges/supervisor_add_addon_repository.svg)](https://my.home-assistant.io/redirect/supervisor_add_addon_repository/?repository_url=https%3A%2F%2Fgithub.com%2Fcrystalheeler%2Fluxonis-controller)
 
 ---
 
@@ -26,7 +26,7 @@ the same code, so both get the same features.
 ### Home Assistant add-on
 
 1. Click the badge above, or go to **Settings → Add-ons → Add-on Store → ⋮ → Repositories** and add
-   `https://github.com/crystalheeler/Luxonis-OAK-D-LR`.
+   `https://github.com/crystalheeler/luxonis-controller`.
 2. Install **OAK-D LR Camera**.
 3. Set `camera_ip` on the Configuration tab.
 4. Start the add-on. **OAK Camera** then appears in the sidebar.
@@ -40,7 +40,7 @@ same network through a PoE switch or injector.
 ### Windows, portable
 
 1. Download `OakCamera-<version>-win64.zip` from the
-   [latest release](https://github.com/crystalheeler/Luxonis-OAK-D-LR/releases/latest).
+   [latest release](https://github.com/crystalheeler/luxonis-controller/releases/latest).
 2. Unzip it anywhere you can write to. Avoid `C:\Program Files`.
 3. Set `camera_ip` in `oak_config.yaml`.
 4. Run `OakCamera.exe`. A camera icon appears next to the clock.
@@ -53,8 +53,8 @@ No installer and no administrator rights. Windows Firewall asks once for
 ### Linux, from source
 
 ```bash
-git clone https://github.com/crystalheeler/Luxonis-OAK-D-LR.git
-cd Luxonis-OAK-D-LR
+git clone https://github.com/crystalheeler/luxonis-controller.git
+cd luxonis-controller
 python3 -m venv .venv && . .venv/bin/activate
 pip install -r requirements.txt \
   --extra-index-url https://artifacts.luxonis.com/artifactory/luxonis-python-snapshot-local/
@@ -222,7 +222,7 @@ Windows ZIP, pushes the image to GHCR, and publishes a Release with both:
 ```bash
 # Bump version: in addon/oak_camera/config.yaml to match, and sync the changelog.
 cp CHANGELOG.md addon/oak_camera/CHANGELOG.md
-git tag v3.0.1 && git push origin v3.0.1
+git tag v3.0.2 && git push origin v3.0.2
 ```
 
 ---
@@ -243,7 +243,7 @@ package that fails one.
 
 See [CHANGELOG.md](CHANGELOG.md). Each release has an audit note holding the
 evidence, the measurements and the gaps that the changelog leaves out:
-[docs/audit-3.0.1.md](docs/audit-3.0.1.md).
+[docs/audit-3.0.2.md](docs/audit-3.0.2.md).
 
 ---
 

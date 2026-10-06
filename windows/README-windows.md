@@ -68,4 +68,4 @@ TROUBLESHOOTING
                            then Run anyway.
 
 SOURCE AND ISSUES
-  https://github.com/crystalheeler/Luxonis-OAK-D-LR
+  https://github.com/crystalheeler/luxonis-controller
