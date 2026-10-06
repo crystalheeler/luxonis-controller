@@ -5,10 +5,10 @@
 # placed here could not COPY the Python source from the repository root. The
 # release workflow builds one multi-architecture image and pushes it to GHCR,
 # which also removes the local build on the user's Raspberry Pi.
-name: "OAK-D LR Camera"
-description: "Luxonis OAK-D LR PoE camera with on-device AI detection, RTSP stream, motion recording, and HA events."
-version: "3.0.3"
-slug: "oak_camera"
+name: "Luxonis Controller"
+description: "Luxonis camera controller: on-device AI detection, Real Time Streaming Protocol stream, motion recording, and Home Assistant events."
+version: "3.1.0"
+slug: "luxonis_controller"
 url: "https://github.com/crystalheeler/luxonis-controller"
 image: "ghcr.io/crystalheeler/luxonis-controller"
 
@@ -21,7 +21,7 @@ arch:
 ingress: true
 ingress_port: 8767
 panel_icon: mdi:camera-iris
-panel_title: OAK Camera
+panel_title: Luxonis Controller
 
 options:
   camera_ip: ""
@@ -31,7 +31,7 @@ options:
   filename_tag_objects: true
   storage_alert_enabled: true
   storage_alert_threshold: 50
-  models_dir: "/media/oak_models"
+  models_dir: "/media/luxonis_models"
   ha_url: "http://homeassistant.local:8123"
   ha_token: ""
 

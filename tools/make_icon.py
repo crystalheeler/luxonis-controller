@@ -1,5 +1,5 @@
 """
-Generate windows/oak_camera.ico for the portable executable.
+Generate windows/luxonis_controller.ico for the portable executable.
 =============================================================
 Run once, then commit the result. The continuous integration build needs no
 Pillow this way.
@@ -14,7 +14,7 @@ from PIL import Image, ImageDraw
 # Windows picks the closest size from the icon, so supply the usual set.
 SIZES = (16, 24, 32, 48, 64, 128, 256)
 OUT   = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))),
-                     "windows", "oak_camera.ico")
+                     "windows", "luxonis_controller.ico")
 
 
 def draw(size: int) -> Image.Image:

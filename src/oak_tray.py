@@ -7,7 +7,7 @@ files an installer would otherwise provide.
 
 Menu:
   Open settings      the existing web panel on port 8767
-  View log           opens oak_camera.log in the default text editor
+  View log           opens luxonis_controller.log in the default text editor
   Open data folder   recordings, settings and the log
   Start with Windows a registry Run entry, toggled on and off
   Restart            the same handover the settings panel Restart uses
@@ -30,7 +30,7 @@ import oak_runtime
 log = logging.getLogger("oak-tray")
 
 RUN_KEY_PATH  = r"Software\Microsoft\Windows\CurrentVersion\Run"
-RUN_KEY_NAME  = "OakCamera"
+RUN_KEY_NAME  = "LuxonisController"
 ICON_SIZE     = 64
 
 _icon = None
@@ -174,7 +174,8 @@ def start(bridge) -> None:
         MenuItem("Quit", on_quit),
     )
 
-    _icon = pystray.Icon("oak_camera", _build_image(), "OAK-D LR Camera", menu)
+    _icon = pystray.Icon("luxonis_controller", _build_image(),
+                         "Luxonis Controller", menu)
 
     # pystray needs its own message loop. Run it on a daemon thread so the
     # bridge keeps the main thread for signal handling.

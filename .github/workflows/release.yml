@@ -1,13 +1,13 @@
 name: Release
 
 # One tag push produces every artifact a user needs:
-#   - OakCamera-<version>-win64.zip  attached to a DRAFT GitHub Release
+#   - LuxonisController-<version>-win64.zip  attached to a DRAFT GitHub Release
 #   - ghcr.io/<owner>/luxonis-controller:<version>  for the Home Assistant add-on
 #
 # The Release is staged as a draft. Publishing it is a separate manual step.
 #
 # Tag a release with:
-#   git tag v3.0.3 && git push origin v3.0.3
+#   git tag v3.1.0 && git push origin v3.1.0
 on:
   push:
     tags:
@@ -50,17 +50,17 @@ jobs:
       - name: Add-on version must match the tag
         run: |
           # sed, not grep -oP: PCRE needs a UTF-8 locale, which is not guaranteed.
-          ADDON_VERSION=$(sed -n 's/^version:[[:space:]]*"\(.*\)"[[:space:]]*$/\1/p' addon/oak_camera/config.yaml)
+          ADDON_VERSION=$(sed -n 's/^version:[[:space:]]*"\(.*\)"[[:space:]]*$/\1/p' addon/luxonis_controller/config.yaml)
           if [ "${ADDON_VERSION}" != "${{ steps.v.outputs.version }}" ]; then
-            echo "::error::addon/oak_camera/config.yaml says ${ADDON_VERSION}, the tag says ${{ steps.v.outputs.version }}"
+            echo "::error::addon/luxonis_controller/config.yaml says ${ADDON_VERSION}, the tag says ${{ steps.v.outputs.version }}"
             exit 1
           fi
           echo "Add-on version ${ADDON_VERSION} matches the tag."
 
       - name: Add-on changelog must match the root changelog
         run: |
-          if ! diff -q CHANGELOG.md addon/oak_camera/CHANGELOG.md >/dev/null; then
-            echo "::error::addon/oak_camera/CHANGELOG.md has drifted. Run: cp CHANGELOG.md addon/oak_camera/CHANGELOG.md"
+          if ! diff -q CHANGELOG.md addon/luxonis_controller/CHANGELOG.md >/dev/null; then
+            echo "::error::addon/luxonis_controller/CHANGELOG.md has drifted. Run: cp CHANGELOG.md addon/luxonis_controller/CHANGELOG.md"
             exit 1
           fi
           echo "Changelogs match."
@@ -68,7 +68,7 @@ jobs:
       - name: Image name must match the manifest
         run: |
           WF=$(sed -n 's/^  IMAGE_NAME:[[:space:]]*\(.*\)$/\1/p' .github/workflows/release.yml)
-          MF=$(sed -n 's#^image:[[:space:]]*"ghcr.io/[^/]*/\(.*\)"#\1#p' addon/oak_camera/config.yaml)
+          MF=$(sed -n 's#^image:[[:space:]]*"ghcr.io/[^/]*/\(.*\)"#\1#p' addon/luxonis_controller/config.yaml)
           if [ "$WF" != "$MF" ]; then
             echo "::error::the workflow builds '$WF' but the add-on manifest pulls '$MF'"
             exit 1
@@ -101,7 +101,10 @@ jobs:
           python - <<'PY'
           import sys
           lines = open("CHANGELOG.md", encoding="utf-8").read().split("\n")
-          vers = [l[3:].strip() for l in lines if l.startswith("## ")]
+          import re as _re
+          # Only version headings. "## Terms" is the glossary.
+          vers = [l[3:].strip() for l in lines
+                  if l.startswith("## ") and _re.fullmatch(r"\d+\.\d+\.\d+", l[3:].strip())]
           bad = False
           dupes = sorted({v for v in vers if vers.count(v) > 1})
           if dupes:
@@ -167,11 +170,11 @@ jobs:
             ffi=FixedFileInfo(filevers=($MAJ, $MIN, $PAT, 0), prodvers=($MAJ, $MIN, $PAT, 0)),
             kids=[
               StringFileInfo([StringTable('040904B0', [
-                StringStruct('FileDescription', 'OAK-D LR Camera bridge'),
+                StringStruct('FileDescription', 'Luxonis Controller bridge'),
                 StringStruct('FileVersion', '$V'),
-                StringStruct('InternalName', 'OakCamera'),
-                StringStruct('OriginalFilename', 'OakCamera.exe'),
-                StringStruct('ProductName', 'Luxonis OAK-D LR Camera'),
+                StringStruct('InternalName', 'LuxonisController'),
+                StringStruct('OriginalFilename', 'LuxonisController.exe'),
+                StringStruct('ProductName', 'Luxonis Luxonis Controller'),
                 StringStruct('ProductVersion', '$V'),
               ])]),
               VarFileInfo([VarStruct('Translation', [1033, 1200])])
@@ -180,7 +183,7 @@ jobs:
           EOF
 
       - name: Build
-        run: pyinstaller --clean --noconfirm windows/oak_camera.spec
+        run: pyinstaller --clean --noconfirm windows/luxonis_controller.spec
 
       - name: Smoke test the executable
         shell: bash
@@ -188,18 +191,18 @@ jobs:
           # The program is a long running service, so a plain run never exits.
           # Confirm instead that it starts, writes its log and reports its paths.
           mkdir -p smoke
-          cp dist/OakCamera.exe smoke/
-          cp windows/oak_config.yaml smoke/
-          ( cd smoke && ./OakCamera.exe & )
+          cp dist/LuxonisController.exe smoke/
+          cp windows/luxonis_config.yaml smoke/
+          ( cd smoke && ./LuxonisController.exe & )
           sleep 75
 
           # Stop it first, so a failed check below still leaves a clean runner.
-          taskkill //IM OakCamera.exe //F || true
+          taskkill //IM LuxonisController.exe //F || true
           taskkill //IM mediamtx.exe //F || true
 
-          LOG=smoke/data/oak_camera.log
+          LOG=smoke/data/luxonis_controller.log
           if [ ! -f "$LOG" ]; then
-            echo "::error::OakCamera.exe produced no log file"
+            echo "::error::LuxonisController.exe produced no log file"
             ls -R smoke || true
             exit 1
           fi
@@ -223,11 +226,11 @@ jobs:
         shell: bash
         run: |
           V="${{ needs.check.outputs.version }}"
-          STAGE="OakCamera-${V}-win64"
+          STAGE="LuxonisController-${V}-win64"
           mkdir -p "$STAGE"
-          cp dist/OakCamera.exe       "$STAGE/"
+          cp dist/LuxonisController.exe       "$STAGE/"
           # ffprobe stays behind: the encoder check uses it, the app does not.
-          cp windows/oak_config.yaml  "$STAGE/"
+          cp windows/luxonis_config.yaml  "$STAGE/"
           cp windows/README-windows.md "$STAGE/README.txt"
           cd "$STAGE" && 7z a -tzip "../${STAGE}.zip" . && cd ..
           ls -la *.zip
@@ -235,7 +238,7 @@ jobs:
       - uses: actions/upload-artifact@v4
         with:
           name: windows-zip
-          path: OakCamera-*-win64.zip
+          path: LuxonisController-*-win64.zip
           retention-days: 7
 
   # ---------------------------------------------------------------------------
@@ -309,12 +312,12 @@ jobs:
 
           ## Install
 
-          **Windows, portable.** Download \`OakCamera-${V}-win64.zip\` below, unzip it
-          anywhere, and run \`OakCamera.exe\`. No installer and no administrator
-          rights. Settings live in \`oak_config.yaml\` beside the executable.
+          **Windows, portable.** Download \`LuxonisController-${V}-win64.zip\` below, unzip it
+          anywhere, and run \`LuxonisController.exe\`. No installer and no administrator
+          rights. Settings live in \`luxonis_config.yaml\` beside the executable.
 
           **Home Assistant.** Add this repository in Settings > Add-ons >
-          Add-on Store > Repositories, then install **OAK-D LR Camera**:
+          Add-on Store > Repositories, then install **Luxonis Controller**:
 
           [![Add repository to Home Assistant](https://my.home-assistant.io/badges/supervisor_add_addon_repository.svg)](https://my.home-assistant.io/redirect/supervisor_add_addon_repository/?repository_url=https%3A%2F%2Fgithub.com%2F${REPO_ENC})
 
@@ -330,6 +333,6 @@ jobs:
         with:
           name: "v${{ needs.check.outputs.version }}"
           body_path: notes.md
-          files: OakCamera-*-win64.zip
+          files: LuxonisController-*-win64.zip
           draft: true
           prerelease: false

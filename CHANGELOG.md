@@ -1,4 +1,4 @@
-# OAK-D LR Camera — Changelog
+# Luxonis Controller — Changelog
 
 ## Terms
 
@@ -12,6 +12,24 @@
 | NN | Neural network |
 | PoE | Power over Ethernet |
 | RTSP | Real Time Streaming Protocol, the video stream on port 8765 |
+
+## 3.1.0
+Renames everything to Luxonis Controller, and adds a settings backup you can restore.
+
+### Changes & improvements
+- **Export JSON and Import JSON in the settings panel.** Export writes every setting to a file, Import reads one back. The old "Save to file" button still writes the human-readable list.
+- **The add-on is now Luxonis Controller.** The name, the sidebar panel and the slug all follow the project.
+- **The Home Assistant events and the storage sensor are renamed to match.** They are now `luxonis_controller_motion_started`, `luxonis_controller_motion_stopped`, `luxonis_controller_storage_alert` and `sensor.luxonis_controller_storage`.
+- **The Windows build is now `LuxonisController.exe`,** with `luxonis_config.yaml` beside it and `luxonis_controller.log` in its data folder.
+- **Recordings and models move to `/media/luxonis_recordings` and `/media/luxonis_models`.**
+
+### Bugs fixed
+- **The settings export could not be restored.** It wrote a human-readable list, so moving settings meant redoing 80 object classes by hand.
+
+### Known issues
+- **Install it as a new add-on** and remove the old one.
+- **Update your automations** to the new event names and sensor. `ha_configuration.yaml` has the current examples.
+- **The Windows build is not signed.** SmartScreen warns on first run. Choose More info, then Run anyway.
 
 ## 3.0.3
 Renames the container image to `luxonis-controller`, because the project will add other Luxonis models.

@@ -3,9 +3,9 @@ Platform path resolution for the OAK camera bridge.
 =====================================================
 One source of truth for every writable location. Three deployment targets:
 
-  HA add-on   /data, /media/oak_recordings, /models      (Supervisor mounts)
+  HA add-on   /data, /media/luxonis_recordings, /models      (Supervisor mounts)
   Portable    <exe folder>/data, /recordings, /models     (travels on a stick)
-  Source      ~/.local/share/oak-camera  or  %LOCALAPPDATA%\OakCamera
+  Source      ~/.local/share/luxonis-controller  or  %LOCALAPPDATA%\LuxonisController
 
 Every location accepts an environment override so the launcher can place data
 anywhere without a code change:
@@ -17,7 +17,7 @@ import os
 import sys
 import tempfile
 
-APP_NAME = "OakCamera"
+APP_NAME = "LuxonisController"
 
 # Set once on first call so every thread agrees on the layout.
 _resolved: dict[str, str] = {}
@@ -74,7 +74,7 @@ def _user_dir() -> str:
     if sys.platform == "darwin":
         return os.path.expanduser(f"~/Library/Application Support/{APP_NAME}")
     base = os.environ.get("XDG_DATA_HOME") or os.path.expanduser("~/.local/share")
-    return os.path.join(base, "oak-camera")
+    return os.path.join(base, "luxonis-controller")
 
 
 def _resolve(key: str, env_var: str, ha_path: str, portable_name: str) -> str:
@@ -119,7 +119,7 @@ def data_dir() -> str:
 def recordings_dir() -> str:
     """Motion clips. This folder grows, so the storage monitor watches it."""
     return _resolve("recordings", "OAK_RECORDINGS_DIR",
-                    "/media/oak_recordings", "recordings")
+                    "/media/luxonis_recordings", "recordings")
 
 
 def models_dir() -> str:

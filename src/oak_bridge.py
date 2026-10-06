@@ -273,7 +273,7 @@ def request_shutdown() -> None:
     os._exit(0)
 
 # Settings persistence
-SETTINGS_PATH  = os.path.join(oak_paths.data_dir(), "oak_settings.json")
+SETTINGS_PATH  = os.path.join(oak_paths.data_dir(), "luxonis_settings.json")
 settings_lock  = threading.Lock()
 # The Shut down button appears only outside Home Assistant. Inside the
 # add-on the Supervisor owns the container lifecycle: it restarts the
@@ -401,7 +401,7 @@ def send_ha_notification(title, message):
     try:
         requests.post(f"{HA_URL}/api/services/persistent_notification/create",
                       json={"title": title, "message": message,
-                            "notification_id": "oak_camera_storage"},
+                            "notification_id": "luxonis_controller_storage"},
                       headers={"Authorization": f"Bearer {HA_TOKEN}",
                                "Content-Type": "application/json"},
                       timeout=5).raise_for_status()
@@ -412,11 +412,11 @@ def send_ha_notification(title, message):
 def update_storage_sensor(pct, used_gb, total_gb, free_gb):
     if not HA_TOKEN: return
     try:
-        requests.post(f"{HA_URL}/api/states/sensor.oak_camera_storage",
+        requests.post(f"{HA_URL}/api/states/sensor.luxonis_controller_storage",
                       json={"state": str(pct),
                             "attributes": {
                                 "unit_of_measurement": "%",
-                                "friendly_name": "OAK Camera Storage Used",
+                                "friendly_name": "Luxonis Controller Storage Used",
                                 "icon": "mdi:harddisk",
                                 "used_gb": round(used_gb, 2),
                                 "free_gb": round(free_gb, 2),
@@ -727,7 +727,7 @@ def detection_thread():
                 if not detection_active and detected:
                     detection_active = True
                     log.info(f"Detection: {', '.join(sorted(set(triggered)))}")
-                    fire_ha_event("oak_camera_motion_started", {
+                    fire_ha_event("luxonis_controller_motion_started", {
                         "timestamp": datetime.now().isoformat(),
                         "camera": "OAK-D LR",
                         "detected": sorted(set(triggered)),
@@ -740,7 +740,7 @@ def detection_thread():
                     if post_roll_counter <= 0:
                         detection_active = False
                         log.info("Detection ended")
-                        fire_ha_event("oak_camera_motion_stopped", {
+                        fire_ha_event("luxonis_controller_motion_stopped", {
                             "timestamp": datetime.now().isoformat(),
                             "camera": "OAK-D LR",
                         })
@@ -1078,8 +1078,8 @@ def storage_thread():
                            f"({used_gb:.1f} GB of {total_gb:.1f} GB, "
                            f"{free_gb:.1f} GB free).\n\n"
                            f"Consider deleting old recordings from `{RECORDINGS_DIR}`.")
-                    send_ha_notification("⚠️ OAK Camera: Storage Alert", msg)
-                    fire_ha_event("oak_camera_storage_alert", {
+                    send_ha_notification("⚠️ Luxonis Controller: Storage Alert", msg)
+                    fire_ha_event("luxonis_controller_storage_alert", {
                         "timestamp": datetime.now().isoformat(),
                         "used_percent": pct, "used_gb": round(used_gb,2),
                         "total_gb": round(total_gb,2), "free_gb": round(free_gb,2),

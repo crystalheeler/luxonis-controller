@@ -7,7 +7,7 @@ therefore only ran inside the Home Assistant Supervisor.
 Config sources, in priority order:
 
   1 /data/options.json        written by the Home Assistant Supervisor
-  2 oak_config.yaml           beside the executable, for the portable build
+  2 luxonis_config.yaml           beside the executable, for the portable build
   3 the defaults below
 
 Every value becomes an environment variable, which is the interface oak_bridge
@@ -34,7 +34,7 @@ import oak_runtime
 
 log = logging.getLogger("oak-launcher")
 
-CONFIG_NAME     = "oak_config.yaml"
+CONFIG_NAME     = "luxonis_config.yaml"
 HA_OPTIONS_PATH = "/data/options.json"
 
 # Option name in the config file, environment variable oak_bridge reads,
@@ -68,7 +68,7 @@ _mediamtx_proc: subprocess.Popen | None = None
 # ==============================================================================
 
 def _find_config_file() -> str | None:
-    """Return the path of oak_config.yaml, searching the usual folders."""
+    """Return the path of luxonis_config.yaml, searching the usual folders."""
     for folder in (oak_paths.app_dir(), oak_paths.data_dir(), oak_paths.bundle_dir()):
         candidate = os.path.join(folder, CONFIG_NAME)
         if os.path.isfile(candidate):
@@ -268,13 +268,13 @@ def main() -> int:
     oak_logging.setup_logging(capture_streams=not in_addon)
 
     log.info("=" * 62)
-    log.info("OAK-D LR Camera bridge")
+    log.info("Luxonis Controller bridge")
     log.info(oak_paths.describe())
 
     # A second copy would fight over ports 8765 to 8767 and over the camera.
     # A restart waits, because the outgoing process still holds the marker.
     if not oak_runtime.acquire_single_instance(oak_runtime.restart_wait_seconds()):
-        log.error("Another copy of OAK Camera is already running — exiting. "
+        log.error("Another copy of Luxonis Controller is already running — exiting. "
                   f"Open the settings page at http://localhost:8767/")
         return 1
 

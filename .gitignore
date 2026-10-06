@@ -14,8 +14,8 @@ src/logs/
 src/models/
 src/recordings/
 src/bin/
-oak_camera.log*
-oak_settings.json
+luxonis_controller.log*
+luxonis_settings.json
 mediamtx.yml
 
 # macOS

@@ -4,8 +4,8 @@ YOLO11n RVC2 Preparation Script — Run this on your Windows PC ONCE
 This script downloads YOLO11n, converts it to an RVC2-compatible NNArchive,
 and saves yolo11n.tar.xz in the same folder as this script.
 
-Copy that file into your oak_camera_app folder alongside the other files,
-then do the normal App store -> Check for updates -> Update flow.
+Copy that file into the models folder the add-on or the portable build
+uses. The add-on default is /media/luxonis_models.
 
 Requirements (install with pip):
     pip install ultralytics blobconverter
@@ -98,8 +98,8 @@ try:
         size_mb = os.path.getsize(OUTPUT_PATH) / 1024 / 1024
         print(f"\nSUCCESS! Output: {OUTPUT_PATH} ({size_mb:.1f} MB)")
         print("\nNext steps:")
-        print("  1. Make sure yolo11n.tar.xz is in your oak_camera_app folder")
-        print("  2. Copy the oak_camera_app folder to your HA addons share")
+        print("  1. Copy yolo11n.tar.xz into the models folder")
+        print("  2. The add-on default is /media/luxonis_models")
         print("  3. App store -> Check for updates -> Update")
     else:
         print("\nERROR: Could not find output .tar.xz")

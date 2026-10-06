@@ -71,7 +71,7 @@ log_file = oak_logging.setup_logging(capture_streams=False)
 logging.getLogger("test").info("hello from the test")
 for h in logging.getLogger().handlers:
     h.flush()
-check("setup_logging returns a path", log_file.endswith("oak_camera.log"), log_file)
+check("setup_logging returns a path", log_file.endswith("luxonis_controller.log"), log_file)
 check("the log file exists", os.path.isfile(log_file))
 body = open(log_file, encoding="utf-8").read()
 check("the message reached the file", "hello from the test" in body)
@@ -161,9 +161,9 @@ for _k, env_var, _d in oak_launcher.OPTION_MAP:
     os.environ.pop(env_var, None)
 
 cfg_path = os.path.join(oak_paths.data_dir(), oak_launcher.CONFIG_NAME)
-shutil.copy(os.path.join(REPO, "windows", "oak_config.yaml"), cfg_path)
+shutil.copy(os.path.join(REPO, "windows", "luxonis_config.yaml"), cfg_path)
 cfg, source = oak_launcher.load_config()
-check("load_config finds oak_config.yaml", source == cfg_path, source)
+check("load_config finds luxonis_config.yaml", source == cfg_path, source)
 check("load_config parsed the keys", "camera_ip" in cfg and "fps" in cfg, list(cfg)[:4])
 
 oak_launcher.apply_config(cfg)
@@ -280,7 +280,7 @@ check("file mode drops the rtsp options",
 
 # ============================================================ icon
 print("\n[icon]")
-ico = os.path.join(REPO, "windows", "oak_camera.ico")
+ico = os.path.join(REPO, "windows", "luxonis_controller.ico")
 check("the icon file exists", os.path.isfile(ico))
 if os.path.isfile(ico):
     from PIL import Image

@@ -77,7 +77,7 @@ def build_settings_html(show_shutdown: bool = True):
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>OAK Camera</title>
+<title>Luxonis Controller</title>
 <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;600&family=IBM+Plex+Sans:wght@300;400;600&display=swap" rel="stylesheet">
 <style>
 :root{--bg:#0f1117;--surface:#171b26;--border:#2a2f3d;--text:#e2e8f0;--muted:#64748b;--on:#22c55e;--off:#475569;--inp:#1e2330}
@@ -144,7 +144,7 @@ body{background:var(--bg);color:var(--text);font-family:'IBM Plex Sans',sans-ser
 <body>
 
 <div class="topbar">
-  <h1>&#x2b22; OAK Camera</h1>
+  <h1>&#x2b22; Luxonis Controller</h1>
   <div class="topbar-actions">
     <button class="btn btn-reload"   onclick="loadSettings()">&#x21ba; Reload</button>
     <button class="btn btn-reset"    onclick="resetSettings()">Reset defaults</button>
@@ -315,7 +315,7 @@ async function exportJson(){
     const blob=new Blob([JSON.stringify(data,null,2)],{type:'application/json'});
     const a=document.createElement('a');
     a.href=URL.createObjectURL(blob);
-    a.download='oak_settings_'+new Date().toISOString().slice(0,10)+'.json';
+    a.download='luxonis_settings_'+new Date().toISOString().slice(0,10)+'.json';
     a.click();
     URL.revokeObjectURL(a.href);
     showStatus('\u2713 Settings exported as JSON.',true);
@@ -348,7 +348,7 @@ async function importJson(input){
 
 function exportSettings(){
   const data=gatherSettings();
-  const lines=['OAK Camera Detection Settings','Generated: '+new Date().toLocaleString(),''];
+  const lines=['Luxonis Controller Detection Settings','Generated: '+new Date().toLocaleString(),''];
   // Global settings
   lines.push('Hardware Threshold: '+data.hw_threshold);
   lines.push('Filename Tag Min Duration (sec): '+data.tag_duration);
@@ -377,7 +377,7 @@ function exportSettings(){
   const blob=new Blob([lines.join(String.fromCharCode(10))],{type:'text/plain'});
   const a=document.createElement('a');
   a.href=URL.createObjectURL(blob);
-  a.download='oak_detection_settings_'+new Date().toISOString().slice(0,10)+'.txt';
+  a.download='luxonis_detection_settings_'+new Date().toISOString().slice(0,10)+'.txt';
   a.click();
   URL.revokeObjectURL(a.href);
   showStatus('\u2713 Settings exported to file.',true);

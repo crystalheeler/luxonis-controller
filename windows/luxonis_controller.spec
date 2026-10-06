@@ -1,13 +1,13 @@
 # PyInstaller spec for the portable Windows executable.
 # -*- mode: python ; coding: utf-8 -*-
 #
-# Produces ONE file: dist/OakCamera.exe
+# Produces ONE file: dist/LuxonisController.exe
 #
 #   onefile    the user gets a single program to double-click
-#   windowed   no console window, so every message goes to oak_camera.log
+#   windowed   no console window, so every message goes to luxonis_controller.log
 #
 # Build from the repository root:
-#   pyinstaller --clean --noconfirm windows/oak_camera.spec
+#   pyinstaller --clean --noconfirm windows/luxonis_controller.spec
 #
 # mediamtx.exe and ffmpeg.exe are bundled when present in windows/bin/. The
 # release workflow downloads them there. ffmpeg is optional: without it the
@@ -42,7 +42,7 @@ for name in ("mediamtx.exe", "ffmpeg.exe"):
 datas = [
     # Default config. oak_launcher writes nothing over an existing copy beside
     # the executable, so a user edit survives an upgrade.
-    (os.path.join(WIN_DIR, "oak_config.yaml"), "."),
+    (os.path.join(WIN_DIR, "luxonis_config.yaml"), "."),
 ]
 hiddenimports = []
 
@@ -104,7 +104,7 @@ exe = EXE(
     a.binaries,
     a.datas,
     [],
-    name="OakCamera",
+    name="LuxonisController",
     debug=False,
     bootloader_ignore_signals=False,
     strip=False,
@@ -112,8 +112,8 @@ exe = EXE(
     runtime_tmpdir=None,
     console=False,      # windowed: oak_logging writes the log file instead
     disable_windowed_traceback=False,
-    icon=os.path.join(WIN_DIR, "oak_camera.ico")
-         if os.path.isfile(os.path.join(WIN_DIR, "oak_camera.ico")) else None,
+    icon=os.path.join(WIN_DIR, "luxonis_controller.ico")
+         if os.path.isfile(os.path.join(WIN_DIR, "luxonis_controller.ico")) else None,
     version=os.path.join(WIN_DIR, "version_info.txt")
             if os.path.isfile(os.path.join(WIN_DIR, "version_info.txt")) else None,
 )

@@ -1,4 +1,4 @@
-# OAK-D LR Camera — portable configuration
+# Luxonis Controller — portable configuration
 # =========================================
 # Edit this file, then restart the program. Every value here matches an option
 # in the Home Assistant add-on, so the two deployments stay in step.
@@ -37,5 +37,5 @@ ha_token: ""
 # Folder overrides. Leave them commented out to keep everything beside the
 # executable, which lets the whole folder travel on a USB stick.
 # recordings_dir: "D:/OakRecordings"
-# data_dir: "D:/OakCamera/data"
-# models_dir: "D:/OakCamera/models"
+# data_dir: "D:/LuxonisController/data"
+# models_dir: "D:/LuxonisController/models"

@@ -1,4 +1,4 @@
-# Luxonis OAK-D LR Camera
+# Luxonis Luxonis Controller
 
 On-device AI object detection for the **Luxonis OAK-D LR** Power over
 Ethernet (PoE) camera. Runs as a
@@ -18,7 +18,7 @@ the same code, so both get the same features.
 - **Filename tagging** — the detected object names go into each clip filename
 - **Web settings panel** with a live feed, on port 8767
 - **Storage monitoring** — a Home Assistant sensor plus notifications
-- **Home Assistant events** — `oak_camera_motion_started`, `oak_camera_motion_stopped`, `oak_camera_storage_alert`
+- **Home Assistant events** — `luxonis_controller_motion_started`, `luxonis_controller_motion_stopped`, `luxonis_controller_storage_alert`
 
 ---
 
@@ -28,9 +28,9 @@ the same code, so both get the same features.
 
 1. Click the badge above, or go to **Settings → Add-ons → Add-on Store → ⋮ → Repositories** and add
    `https://github.com/crystalheeler/luxonis-controller`.
-2. Install **OAK-D LR Camera**.
+2. Install **Luxonis Controller**.
 3. Set `camera_ip` on the Configuration tab.
-4. Start the add-on. **OAK Camera** then appears in the sidebar.
+4. Start the add-on. **Luxonis Controller** then appears in the sidebar.
 
 The add-on installs a prebuilt image from the GitHub Container Registry
 (GHCR), so it does not compile anything
@@ -41,15 +41,15 @@ same network through a PoE switch or injector.
 
 ### Windows, portable
 
-1. Download `OakCamera-<version>-win64.zip` from the
+1. Download `LuxonisController-<version>-win64.zip` from the
    [latest release](https://github.com/crystalheeler/luxonis-controller/releases/latest).
 2. Unzip it anywhere you can write to. Avoid `C:\Program Files`.
-3. Set `camera_ip` in `oak_config.yaml`.
-4. Run `OakCamera.exe`. A camera icon appears next to the clock.
+3. Set `camera_ip` in `luxonis_config.yaml`.
+4. Run `LuxonisController.exe`. A camera icon appears next to the clock.
 5. Right-click the icon and choose **Open settings**.
 
 No installer and no administrator rights. Windows Firewall asks once for
-`OakCamera.exe` and once for `mediamtx.exe`. See
+`LuxonisController.exe` and once for `mediamtx.exe`. See
 [windows/README-windows.md](windows/README-windows.md) for the full guide.
 
 ### Linux, from source
@@ -61,7 +61,7 @@ python3 -m venv .venv && . .venv/bin/activate
 pip install -r requirements.txt \
   --extra-index-url https://artifacts.luxonis.com/artifactory/luxonis-python-snapshot-local/
 sudo apt install ffmpeg          # for the RTSP stream
-cp windows/oak_config.yaml src/oak_config.yaml   # then edit camera_ip
+cp windows/luxonis_config.yaml src/luxonis_config.yaml   # then edit camera_ip
 python src/oak_launcher.py
 ```
 
@@ -75,7 +75,7 @@ feed, snapshots and recording keep working.
 ## Configuration
 
 Both deployments read the same keys. The add-on reads them from the
-Configuration tab, and the portable build reads them from `oak_config.yaml`.
+Configuration tab, and the portable build reads them from `luxonis_config.yaml`.
 
 | Option | Default | Description |
 |---|---|---|
@@ -99,13 +99,13 @@ this file. Open it from the Home Assistant sidebar, from the tray icon, or at
 | | Home Assistant add-on | Portable |
 |---|---|---|
 | Settings and log | `/data` | `data\` beside the executable |
-| Recordings | `/media/oak_recordings` | `recordings\` beside the executable |
-| Models | `/media/oak_models` | `models\` beside the executable |
+| Recordings | `/media/luxonis_recordings` | `recordings\` beside the executable |
+| Models | `/media/luxonis_models` | `models\` beside the executable |
 
 Override any of them with `recordings_dir`, `data_dir` and `models_dir` in the
 config, or with the `OAK_RECORDINGS_DIR`, `OAK_DATA_DIR` and `OAK_MODELS_DIR`
 environment variables. A portable build that cannot write beside its executable
-falls back to `%LOCALAPPDATA%\OakCamera`.
+falls back to `%LOCALAPPDATA%\LuxonisController`.
 
 ### Ports
 
@@ -151,8 +151,8 @@ sensor:
   - platform: template
     sensors:
       oak_storage:
-        friendly_name: OAK Camera Storage
-        value_template: "{{ states('sensor.oak_camera_storage') }}%"
+        friendly_name: Luxonis Controller Storage
+        value_template: "{{ states('sensor.luxonis_controller_storage') }}%"
         unit_of_measurement: "%"
 ```
 
@@ -162,9 +162,9 @@ See [ha_configuration.yaml](ha_configuration.yaml) for automation examples.
 
 | Event | Payload |
 |---|---|
-| `oak_camera_motion_started` | `camera`, `detected` (list), `model`, `timestamp` |
-| `oak_camera_motion_stopped` | `camera`, `timestamp` |
-| `oak_camera_storage_alert` | `used_percent`, `used_gb`, `free_gb`, `total_gb`, `threshold` |
+| `luxonis_controller_motion_started` | `camera`, `detected` (list), `model`, `timestamp` |
+| `luxonis_controller_motion_stopped` | `camera`, `timestamp` |
+| `luxonis_controller_storage_alert` | `used_percent`, `used_gb`, `free_gb`, `total_gb`, `threshold` |
 
 ---
 
@@ -208,7 +208,7 @@ Thread 8  ingress     Settings panel and live feed on port 8767
 pip install -r windows/requirements-windows.txt \
   --extra-index-url https://artifacts.luxonis.com/artifactory/luxonis-python-snapshot-local/
 # Put mediamtx.exe and ffmpeg.exe in windows/bin/ to bundle them.
-pyinstaller --clean --noconfirm windows/oak_camera.spec
+pyinstaller --clean --noconfirm windows/luxonis_controller.spec
 ```
 
 ### The add-on image
@@ -223,9 +223,9 @@ Push a tag. The [workflow](.github/workflows/release.yml) then builds the
 Windows ZIP, pushes the image to GHCR, and publishes a Release with both:
 
 ```bash
-# Bump version: in addon/oak_camera/config.yaml to match, and sync the changelog.
-cp CHANGELOG.md addon/oak_camera/CHANGELOG.md
-git tag v3.0.3 && git push origin v3.0.3
+# Bump version: in addon/luxonis_controller/config.yaml to match, and sync the changelog.
+cp CHANGELOG.md addon/luxonis_controller/CHANGELOG.md
+git tag v3.1.0 && git push origin v3.1.0
 ```
 
 ---
@@ -246,7 +246,7 @@ package that fails one.
 
 See [CHANGELOG.md](CHANGELOG.md). Each release has an audit note holding the
 evidence, the measurements and the gaps that the changelog leaves out:
-[docs/audit-3.0.3.md](docs/audit-3.0.3.md).
+[docs/audit-3.1.0.md](docs/audit-3.1.0.md).
 
 ---
 

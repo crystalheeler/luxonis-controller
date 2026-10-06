@@ -19,7 +19,7 @@ import threading
 
 import oak_paths
 
-LOG_NAME        = "oak_camera.log"
+LOG_NAME        = "luxonis_controller.log"
 MAX_BYTES       = 2 * 1024 * 1024   # 2 MB per file
 BACKUP_COUNT    = 5                 # 10 MB total
 LOG_FORMAT      = "%(asctime)s [%(levelname)s] %(name)s: %(message)s"
