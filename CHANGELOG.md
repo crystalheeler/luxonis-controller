@@ -1,5 +1,21 @@
 # OAK-D LR Camera — Changelog
 
+## 3.0.3
+Renames the container image to `luxonis-controller`, because the project will add other Luxonis models.
+
+### Changes & improvements
+- **The container image is now `ghcr.io/crystalheeler/luxonis-controller`.** The old name described one camera model, and the project is growing past that.
+- **A release check pins the image name.** It fails the build if the workflow and the add-on manifest ever disagree.
+
+### Bugs fixed
+- None. This release changes names only.
+
+### Known issues
+- **Update, do not reinstall.** Home Assistant pulls the new image on update. The new image is published before the manifest points at it, so the update is safe.
+- **The old package stays for now.** `luxonis-oak-d-lr` keeps tags 3.0.0 to 3.0.2, so a rollback to those versions still works. It receives no new tags.
+- **Only one host can hold the camera.** Stop the add-on before you point the Windows build at the same camera.
+- **The Windows build is not signed.** SmartScreen warns on first run. Choose More info, then Run anyway.
+
 ## 3.0.2
 Makes the RTSP stream play on a Raspberry Pi hardware decoder and in Firefox.
 

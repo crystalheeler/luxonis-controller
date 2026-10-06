@@ -141,6 +141,11 @@ install badge, the clone command and its folder, the releases link, and the
 `url` field in both `repository.yaml` and the add-on manifest. The git remote
 was updated too.
 
+> **Reversed in 3.0.3.** The owner renamed the image to
+> `luxonis-controller`, because the project will add other Luxonis
+> models. See `docs/audit-3.0.3.md`. The paragraph below records what
+> was decided for 3.0.2.
+
 **The container image keeps its original name**, `ghcr.io/crystalheeler/luxonis-oak-d-lr`.
 A package is named independently of its repository. Renaming it would orphan
 the 3.0.0 and 3.0.1 images and break any add-on already pulling them, for no

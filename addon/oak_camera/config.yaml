@@ -7,10 +7,10 @@
 # which also removes the local build on the user's Raspberry Pi.
 name: "OAK-D LR Camera"
 description: "Luxonis OAK-D LR PoE camera with on-device AI detection, RTSP stream, motion recording, and HA events."
-version: "3.0.2"
+version: "3.0.3"
 slug: "oak_camera"
 url: "https://github.com/crystalheeler/luxonis-controller"
-image: "ghcr.io/crystalheeler/luxonis-oak-d-lr"
+image: "ghcr.io/crystalheeler/luxonis-controller"
 
 init: false
 host_network: true

@@ -2,12 +2,12 @@ name: Release
 
 # One tag push produces every artifact a user needs:
 #   - OakCamera-<version>-win64.zip  attached to a DRAFT GitHub Release
-#   - ghcr.io/<owner>/luxonis-oak-d-lr:<version>  for the Home Assistant add-on
+#   - ghcr.io/<owner>/luxonis-controller:<version>  for the Home Assistant add-on
 #
 # The Release is staged as a draft. Publishing it is a separate manual step.
 #
 # Tag a release with:
-#   git tag v3.0.2 && git push origin v3.0.2
+#   git tag v3.0.3 && git push origin v3.0.3
 on:
   push:
     tags:
@@ -24,7 +24,7 @@ permissions:
 
 env:
   MEDIAMTX_VERSION: "1.9.0"
-  IMAGE_NAME: luxonis-oak-d-lr
+  IMAGE_NAME: luxonis-controller
 
 jobs:
   # ---------------------------------------------------------------------------
@@ -64,6 +64,16 @@ jobs:
             exit 1
           fi
           echo "Changelogs match."
+
+      - name: Image name must match the manifest
+        run: |
+          WF=$(sed -n 's/^  IMAGE_NAME:[[:space:]]*\(.*\)$/\1/p' .github/workflows/release.yml)
+          MF=$(sed -n 's#^image:[[:space:]]*"ghcr.io/[^/]*/\(.*\)"#\1#p' addon/oak_camera/config.yaml)
+          if [ "$WF" != "$MF" ]; then
+            echo "::error::the workflow builds '$WF' but the add-on manifest pulls '$MF'"
+            exit 1
+          fi
+          echo "Image name '$WF' matches in both places."
 
       - name: Python files must compile
         run: python -m compileall -q src tools tests
@@ -303,7 +313,7 @@ jobs:
 
           [![Add repository to Home Assistant](https://my.home-assistant.io/badges/supervisor_add_addon_repository.svg)](https://my.home-assistant.io/redirect/supervisor_add_addon_repository/?repository_url=https%3A%2F%2Fgithub.com%2F${REPO_ENC})
 
-          **Container.** \`ghcr.io/${OWNER}/luxonis-oak-d-lr:${V}\`
+          **Container.** \`ghcr.io/${OWNER}/luxonis-controller:${V}\`
           EOF
           cat notes.md
 
